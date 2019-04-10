@@ -1,0 +1,1418 @@
+
+
+
+
+SQL> create table emp
+  2  (empno number(4) primary key,
+  3  ename varchar2(10),
+  4  job varchar2(9),
+  5  mgr number(4),
+  6  hiredate date default sysdate,
+  7  sal number(7,2),
+  8  comm number(7,2),
+  9  deptno number(2));
+
+Table created.
+
+SQL> desc emp;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EMPNO                                     NOT NULL NUMBER(4)
+ ENAME                                              VARCHAR2(10)
+ JOB                                                VARCHAR2(9)
+ MGR                                                NUMBER(4)
+ HIREDATE                                           DATE
+ SAL                                                NUMBER(7,2)
+ COMM                                               NUMBER(7,2)
+ DEPTNO                                             NUMBER(2)
+
+SQL> create table Designation_Master
+  2  (design_code number(3) primary key,
+  3  design_name varchar2(50));
+
+Table created.
+
+SQL> desc Designation_Master;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ DESIGN_CODE                               NOT NULL NUMBER(3)
+ DESIGN_NAME                                        VARCHAR2(50)
+
+SQL> create table Department_Master
+  2  (dept_code number(2) primary key,
+  3  dept_name varchar2(50));
+
+Table created.
+
+SQL> desc Department_Master;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ DEPT_CODE                                 NOT NULL NUMBER(2)
+ DEPT_NAME                                          VARCHAR2(50)
+
+ 
+SQL> create table Student_Master
+  2  (student_code number(6) primary key,
+  3  student_name varchar2(50) not null,
+  4  dept_code number(2),
+  5  student_dob date,
+  6  student_address varchar2(240),
+  7  constraint fk_dept_smaster foreign key (dept_code) references Department_Master(dept_code) on delete cascade);
+
+Table created.
+
+SQL> desc Student_Master;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ STUDENT_CODE                              NOT NULL NUMBER(6)
+ STUDENT_NAME                              NOT NULL VARCHAR2(50)
+ DEPT_CODE                                          NUMBER(2)
+ STUDENT_DOB                                        DATE
+ STUDENT_ADDRESS                                    VARCHAR2(240)
+
+SQL> create table Student_Marks
+  2  (sno number primary key,
+  3  student_code number(6),
+  4  student_year number not null,
+  5  subject1 number(3),
+  6  subject2 number(3),
+  7  subject3 number(3),
+  8  constraint fk_smaster_smarks foreign key (student_code) references Student_Master(student_code) on delete cascade);
+
+Table created.
+
+SQL> desc Student_Marks;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ SNO                                       NOT NULL NUMBER
+ STUDENT_CODE                                       NUMBER(6)
+ STUDENT_YEAR                              NOT NULL NUMBER
+ SUBJECT1                                           NUMBER(3)
+ SUBJECT2                                           NUMBER(3)
+ SUBJECT3                                           NUMBER(3)
+
+ 
+
+
+SQL> create table Staff_Master
+  2  (staff_code number(8) primary key,
+  3  staff_name varchar2(50) not null,
+  4  design_code number,
+  5  dept_code number,
+  6  hiredate date,
+  7  staff_dob date,
+  8  staff_address varchar2(240),
+  9  mgr_code number(8),
+ 10  staff_sal number(10,2),
+ 11  constraint fk_dmaster_staffm foreign key (design_code) references Designation_Master(design_code) on delete cascade,
+ 12  constraint fk_dept_staffm foreign key (dept_code) references Department_Master(dept_code) on delete cascade);
+
+Table created.
+
+SQL> desc Staff_Master;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ STAFF_CODE                                NOT NULL NUMBER(8)
+ STAFF_NAME                                NOT NULL VARCHAR2(50)
+ DESIGN_CODE                                        NUMBER
+ DEPT_CODE                                          NUMBER
+ HIREDATE                                           DATE
+ STAFF_DOB                                          DATE
+ STAFF_ADDRESS                                      VARCHAR2(240)
+ MGR_CODE                                           NUMBER(8)
+ STAFF_SAL                                          NUMBER(10,2)
+
+SQL> spool off;
+SQL> create table Book_Master
+  2  (book_code number(10) primary key,
+  3  book_name varchar2(50) not null,
+  4  book_pub_year number,
+  5  book_pub_author varchar2(50) not null);
+
+Table created.
+
+SQL> desc Book_Master;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ BOOK_CODE                                 NOT NULL NUMBER(10)
+ BOOK_NAME                                 NOT NULL VARCHAR2(50)
+ BOOK_PUB_YEAR                                      NUMBER
+ BOOK_PUB_AUTHOR                           NOT NULL VARCHAR2(50)
+
+SQL> create table Book_Transactions
+  2  (sno number primary key,
+  3  book_code number,
+  4  student_code number,
+  5  staff_code number,
+  6  book_issue_date date not null,
+  7  book_expected_return_date date not null,
+  8  book_actual_return_date date,
+  9  constraint fk_bmaster_btrans foreign key (book_code) references Book_Master(book_code) on delete cascade,
+ 10  constraint fk_smaster_btrans foreign key (student_code) references Student_Master(student_code) on delete cascade,
+ 11  constraint fk_staffm_btrans foreign key (staff_code) references Staff_Master(staff_code) on delete cascade);
+
+Table created.
+
+SQL> desc Book_Transactions;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ SNO                                       NOT NULL NUMBER
+ BOOK_CODE                                          NUMBER
+ STUDENT_CODE                                       NUMBER
+ STAFF_CODE                                         NUMBER
+ BOOK_ISSUE_DATE                           NOT NULL DATE
+ BOOK_EXPECTED_RETURN_DATE                 NOT NULL DATE
+ BOOK_ACTUAL_RETURN_DATE                            DATE
+
+SQL> spool off;
+SQL> 
+SQL> insert into emp values(101,'BINDU','TESTER',null,'01-JAN-19',30000,300,10);
+
+1 row created.
+
+SQL> insert all
+  2  into emp values (102,'KRISHNA','DEVELOPER',101,'15-MAR-19',40000,600,30)
+  3  into emp values (103,'POOJA','ANALYST',101,'18-MAR-19',46000,600,20)
+  4  into emp values (104,'PALLAVI','WRITER',102,'18-MAR-18',50000,100,40)
+  5  into emp values (105,'JAYA','WRITER',102,'18-APR-19',55000,900,50)
+  6  into emp values (106,'REDDY','TESTER',104,'21-APR-19',60000,200,10)
+  7  into emp values (107,'SWETHA','DEVELOPER',103,'29-APR-19',60000,200,20)
+  8  into emp values (108,'GEETHA','ANALYST',105,'01-JUN-19',70000,500,30)
+  9  into emp values (109,'JAYA','DEVELOPER',106,'09-JUN-19',75000,400,40)
+ 10  into emp values (110,'JANU','WRITER',108,'26-JUN-19',40000,400,20)
+ 11  select * from dual;
+
+9 rows created.
+
+                                                     
+                                                                            
+
+SQL> insert into Designation_Master values(01,'SOFTWARE DEVELOPER');
+
+1 row created.
+
+SQL> insert all
+  2  into Designation_Master values(02,'TECH LEAD')
+  3  into Designation_Master values(03,'LEAD MODULE')
+  4  into Designation_Master values(04,'IT DEVELOPER')
+  5  into Designation_Master values(05,'TRAINER')
+  6  select * from dual;
+
+4 rows created.
+
+                                                            
+
+SQL> insert into Department_Master values(11,'SALES');
+
+1 row created.
+
+SQL> insert all
+  2  into Department_Master values(12,'HR')
+  3  into Department_Master values(13,'PRODUCTION')
+  4  into Department_Master values(14,'TRAINING')
+  5  select * from dual;
+
+3 rows created.
+
+                                                           
+
+SQL> insert into Student_Master values(1101,'VASANT',12,'21-AUG-1980','BTM');
+
+1 row created.
+                
+                                                                                
+
+SQL> insert all
+  2  into Student_Master values(1102,'CHERITH',11,'05-JAN-96','HSR')
+  3  into Student_Master values(1103,'SAHITH',13,'09-JUN-96','BTM')
+  4  into Student_Master values(1104,'HARI',13,'26-JUN-86','JAYANAGAR')
+  5  into Student_Master values(1105,'DEEPA',14,'26-JUL-83','RRNAGAR')
+  6  into Student_Master values(1106,'CHARAN',14,'06-SEP-93','RRNAGAR')
+  7  select * from dual;
+
+5 rows created.
+
+
+
+ 
+
+
+SQL> insert into Student_Marks values(1,1101,17,90,50,60);
+
+1 row created.
+
+SQL> insert into Student_Marks values(2,1102,17,95,65,80);
+
+1 row created.
+
+
+
+SQL> insert into Staff_Master values(111,'AAA',01,11,'02-DEC-19','21-OCT-86','BTM',222,10000);
+
+1 row created.
+
+SQL> insert into Staff_Master values(112,'BBB',01,12,'02-DEC-19','20-OCT-86','BTM',333,15000);
+
+1 row created.
+
+SQL> insert into Book_Master values(300,'JAVA',1980,'YYY');
+
+1 row created.
+
+SQL> insert into Book_Master values(301,'C',1981,'MMM');
+
+1 row created.
+
+SQL> insert into Book_Master values(302,'SQL',1981,'YYY');
+
+1 row created.
+
+
+
+
+SQL> insert into Book_Transactions values(1,300,1101,111,'02-JAN-19','02-FEB-19','15-FEB-19');
+
+1 row created.
+
+SQL> insert into Book_Transactions values(2,302,1103,112,'02-JAN-19','02-FEB-19','15-FEB-19');
+
+1 row created.
+
+SQL> select * from emp;
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM      
+---------- ---------- --------- ---------- --------- ---------- ----------      
+    DEPTNO                                                                      
+----------                                                                      
+       101 BINDU      TESTER               01-JAN-19      30000        300      
+        10                                                                      
+                                                                                
+       102 KRISHNA    DEVELOPER        101 15-MAR-19      40000        600      
+        30                                                                      
+                                                                                
+       103 POOJA      ANALYST          101 18-MAR-19      46000        600      
+        20                                                                      
+                                                                                
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM      
+---------- ---------- --------- ---------- --------- ---------- ----------      
+    DEPTNO                                                                      
+----------                                                                      
+       104 PALLAVI    WRITER           102 18-MAR-18      50000        100      
+        40                                                                      
+                                                                                
+       105 JAYA       WRITER           102 18-APR-19      55000        900      
+        50                                                                      
+                                                                                
+       106 REDDY      TESTER           104 21-APR-19      60000        200      
+        10                                                                      
+                                                                                
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM      
+---------- ---------- --------- ---------- --------- ---------- ----------      
+    DEPTNO                                                                      
+----------                                                                      
+       107 SWETHA     DEVELOPER        103 29-APR-19      60000        200      
+        20                                                                      
+                                                                                
+       108 GEETHA     ANALYST          105 01-JUN-19      70000        500      
+        30                                                                      
+                                                                                
+       109 JAYA       DEVELOPER        106 09-JUN-19      75000        400      
+        40                                                                      
+                                                                                
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM      
+---------- ---------- --------- ---------- --------- ---------- ----------      
+    DEPTNO                                                                      
+----------                                                                      
+       110 JANU       WRITER           108 26-JUN-19      40000        400      
+        20                                                                      
+                                                                                
+
+10 rows selected.
+
+SQL> select * from Designation_Master;
+
+DESIGN_CODE DESIGN_NAME                                                         
+----------- --------------------------------------------------                  
+          1 SOFTWARE DEVELOPER                                                  
+          2 TECH LEAD                                                           
+          3 LEAD MODULE                                                         
+          4 IT DEVELOPER                                                        
+          5 TRAINER                                                             
+
+SQL> select * from Department_Master;
+
+ DEPT_CODE DEPT_NAME                                                            
+---------- --------------------------------------------------                   
+        11 SALES                                                                
+        12 HR                                                                   
+        13 PRODUCTION                                                           
+        14 TRAINING                                                             
+
+SQL> select * from Student_Master;
+
+STUDENT_CODE STUDENT_NAME                                        DEPT_CODE      
+------------ -------------------------------------------------- ----------      
+STUDENT_D                                                                       
+---------                                                                       
+STUDENT_ADDRESS                                                                 
+--------------------------------------------------------------------------------
+        1101 VASANT                                                     12      
+21-AUG-80                                                                       
+BTM                                                                             
+                                                                                
+        1102 CHERITH                                                    11      
+05-JAN-96                                                                       
+HSR                                                                             
+
+STUDENT_CODE STUDENT_NAME                                        DEPT_CODE      
+------------ -------------------------------------------------- ----------      
+STUDENT_D                                                                       
+---------                                                                       
+STUDENT_ADDRESS                                                                 
+--------------------------------------------------------------------------------
+                                                                                
+        1103 SAHITH                                                     13      
+09-JUN-96                                                                       
+BTM                                                                             
+                                                                                
+        1104 HARI                                                       13      
+26-JUN-86                                                                       
+
+STUDENT_CODE STUDENT_NAME                                        DEPT_CODE      
+------------ -------------------------------------------------- ----------      
+STUDENT_D                                                                       
+---------                                                                       
+STUDENT_ADDRESS                                                                 
+--------------------------------------------------------------------------------
+JAYANAGAR                                                                       
+                                                                                
+        1105 DEEPA                                                      14      
+26-JUL-83                                                                       
+RRNAGAR                                                                         
+                                                                                
+        1106 CHARAN                                                     14      
+
+STUDENT_CODE STUDENT_NAME                                        DEPT_CODE      
+------------ -------------------------------------------------- ----------      
+STUDENT_D                                                                       
+---------                                                                       
+STUDENT_ADDRESS                                                                 
+--------------------------------------------------------------------------------
+06-SEP-93                                                                       
+RRNAGAR                                                                         
+                                                                                
+
+6 rows selected.
+
+SQL> select * from Student_Marks;
+
+       SNO STUDENT_CODE STUDENT_YEAR   SUBJECT1   SUBJECT2   SUBJECT3           
+---------- ------------ ------------ ---------- ---------- ----------           
+         1         1101           17         90         50         60           
+         2         1102           17         95         65         80           
+
+SQL> select * from Staff_Master;
+
+STAFF_CODE STAFF_NAME                                         DESIGN_CODE       
+---------- -------------------------------------------------- -----------       
+ DEPT_CODE HIREDATE  STAFF_DOB                                                  
+---------- --------- ---------                                                  
+STAFF_ADDRESS                                                                   
+--------------------------------------------------------------------------------
+  MGR_CODE  STAFF_SAL                                                           
+---------- ----------                                                           
+       111 AAA                                                          1       
+        11 02-DEC-19 21-OCT-86                                                  
+BTM                                                                             
+       222      10000                                                           
+                                                                                
+
+STAFF_CODE STAFF_NAME                                         DESIGN_CODE       
+---------- -------------------------------------------------- -----------       
+ DEPT_CODE HIREDATE  STAFF_DOB                                                  
+---------- --------- ---------                                                  
+STAFF_ADDRESS                                                                   
+--------------------------------------------------------------------------------
+  MGR_CODE  STAFF_SAL                                                           
+---------- ----------                                                           
+       112 BBB                                                          1       
+        12 02-DEC-19 20-OCT-86                                                  
+BTM                                                                             
+       333      15000                                                           
+                                                                                
+
+SQL> select * from Book_Master;
+
+ BOOK_CODE BOOK_NAME                                          BOOK_PUB_YEAR     
+---------- -------------------------------------------------- -------------     
+BOOK_PUB_AUTHOR                                                                 
+--------------------------------------------------                              
+       300 JAVA                                                        1980     
+YYY                                                                             
+                                                                                
+       301 C                                                           1981     
+MMM                                                                             
+                                                                                
+       302 SQL                                                         1981     
+YYY                                                                             
+                                                                                
+
+SQL> select * from Book_Transactions;
+
+       SNO  BOOK_CODE STUDENT_CODE STAFF_CODE BOOK_ISSU BOOK_EXPE BOOK_ACTU     
+---------- ---------- ------------ ---------- --------- --------- ---------     
+         1        300         1101        111 02-JAN-19 02-FEB-19 15-FEB-19     
+         2        302         1103        112 02-JAN-19 02-FEB-19 15-FEB-19     
+
+SQL> spool off;
+SQL> 
+SQL> 4.1
+SP2-0042: unknown command "4.1" - rest of line ignored.
+SQL> spool off;
+SQL> 
+SQL> commit;
+
+Commit complete.
+
+SQL> create table Customer
+  2  (customer_id number(5) primary key,
+  3  cust_name varchar2(50),
+  4  address varchar2(50),
+  5  address varchar2(50));
+address varchar2(50))
+*
+ERROR at line 5:
+ORA-00957: duplicate column name 
+
+
+SQL> create table Customer
+  2  (customer_id number(5) primary key,
+  3  cust_name varchar2(50),
+  4  address1 varchar2(50),
+  5  address2 varchar2(50));
+
+Table created.
+
+SQL> alter table Customer modify cust_name varchar2(60);
+
+Table altered.
+
+SQL> desc Customer;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ CUSTOMER_ID                               NOT NULL NUMBER(5)
+ CUST_NAME                                          VARCHAR2(60)
+ ADDRESS1                                           VARCHAR2(50)
+ ADDRESS2                                           VARCHAR2(50)
+
+SQL> alter table Customer modify CustomerName not null;
+alter table Customer modify CustomerName not null
+                            *
+ERROR at line 1:
+ORA-00904: "CUSTOMERNAME": invalid identifier 
+
+
+SQL> alter table Customer modify cust_name CustomerName ;
+alter table Customer modify cust_name CustomerName 
+                            *
+ERROR at line 1:
+ORA-22858: invalid alteration of datatype 
+
+
+SQL> alter table Customer modify cust_name CustomerName varchar2(60) not null ;
+alter table Customer modify cust_name CustomerName varchar2(60) not null 
+                                                   *
+ERROR at line 1:
+ORA-01735: invalid ALTER TABLE option 
+
+
+SQL> update Customer set columnname=cust_name,columnname=CustomerName;
+update Customer set columnname=cust_name,columnname=CustomerName
+                                         *
+ERROR at line 1:
+ORA-00957: duplicate column name 
+
+
+SQL> update Customer set name=cust_name where name=CustomerName;
+update Customer set name=cust_name where name=CustomerName
+                                              *
+ERROR at line 1:
+ORA-00904: "CUSTOMERNAME": invalid identifier 
+
+
+SQL> update Customer set name='cust_name' where name='CustomerName';
+update Customer set name='cust_name' where name='CustomerName'
+                                           *
+ERROR at line 1:
+ORA-00904: "NAME": invalid identifier 
+
+
+SQL> alter table Customer rename column cust_name to CustomerName;
+
+Table altered.
+
+SQL> alter table Customer modify CustomerName varchar2(60) not null;
+
+Table altered.
+
+SQL> alter Customer add Gender varchar2(1);
+alter Customer add Gender varchar2(1)
+      *
+ERROR at line 1:
+ORA-00940: invalid ALTER command 
+
+
+SQL> alter Customer add column Gender varchar2(1);
+alter Customer add column Gender varchar2(1)
+      *
+ERROR at line 1:
+ORA-00940: invalid ALTER command 
+
+
+SQL> alter table Customer add column Gender varchar2(1);
+alter table Customer add column Gender varchar2(1)
+                         *
+ERROR at line 1:
+ORA-00904: : invalid identifier 
+
+
+SQL> alter table Customer add  Gender varchar2(1);
+
+Table altered.
+
+SQL> alter table Customer add Age number(10), Phoneno number number(10);
+alter table Customer add Age number(10), Phoneno number number(10)
+                                       *
+ERROR at line 1:
+ORA-01735: invalid ALTER TABLE option 
+
+
+SQL> alter table Customer add Age number(10);
+
+Table altered.
+
+SQL> alter table Customer add Phoneno number(10);
+
+Table altered.
+
+SQL> alter table Customer rename Customer to Cust_Table;
+alter table Customer rename Customer to Cust_Table
+                            *
+ERROR at line 1:
+ORA-14155: missing PARTITION or SUBPARTITION keyword 
+
+
+SQL> alter table Customer rename table Customer to Cust_Table;
+alter table Customer rename table Customer to Cust_Table
+                            *
+ERROR at line 1:
+ORA-14155: missing PARTITION or SUBPARTITION keyword 
+
+
+SQL> alter table Customer rename to Cust_Table;
+
+Table altered.
+
+SQL> spool off;
+SQL> 
+SQL> insert into Cust_Table values(1000,'Allen','#115 Chicago','#115 Chicago','M',22,987654321);
+
+1 row created.
+
+SQL> delete from Cust_table where customer_id=1000;
+
+1 row deleted.
+
+SQL> select * from Cust_Table;
+
+no rows selected
+
+SQL> insert into Cust_Table values(1000,'Allen','#115 Chicago','#115 Chicago','M',25,7878776);
+
+1 row created.
+
+SQL> insert into Cust_Table values(1001,'George','#116 France','#116 France','M',25,434524);
+
+1 row created.
+
+SQL> insert into Cust_Table values(1002,'Becker','#114 New York','#114 New York','M',45,431525);
+
+1 row created.
+
+SQL> select * from Cust_Table;
+
+CUSTOMER_ID CUSTOMERNAME                                                        
+----------- ------------------------------------------------------------        
+ADDRESS1                                                                        
+--------------------------------------------------                              
+ADDRESS2                                           G        AGE    PHONENO      
+-------------------------------------------------- - ---------- ----------      
+       1000 Allen                                                               
+#115 Chicago                                                                    
+#115 Chicago                                       M         25    7878776      
+                                                                                
+       1001 George                                                              
+#116 France                                                                     
+#116 France                                        M         25     434524      
+
+CUSTOMER_ID CUSTOMERNAME                                                        
+----------- ------------------------------------------------------------        
+ADDRESS1                                                                        
+--------------------------------------------------                              
+ADDRESS2                                           G        AGE    PHONENO      
+-------------------------------------------------- - ---------- ----------      
+                                                                                
+       1002 Becker                                                              
+#114 New York                                                                   
+#114 New York                                      M         45     431525      
+                                                                                
+
+SQL> alter table Cust_Table add constraint CustId_Prim primary key (customer_id);
+alter table Cust_Table add constraint CustId_Prim primary key (customer_id)
+                                                  *
+ERROR at line 1:
+ORA-02260: table can have only one primary key 
+
+
+SQL> alter table Cust_Table drop primary key;
+
+Table altered.
+
+SQL> alter table Cust_Table add constraint CustId_Prim primary key (customer_id);
+
+Table altered.
+
+SQL> select * from Cust_Table;
+
+CUSTOMER_ID CUSTOMERNAME                                                        
+----------- ------------------------------------------------------------        
+ADDRESS1                                                                        
+--------------------------------------------------                              
+ADDRESS2                                           G        AGE    PHONENO      
+-------------------------------------------------- - ---------- ----------      
+       1000 Allen                                                               
+#115 Chicago                                                                    
+#115 Chicago                                       M         25    7878776      
+                                                                                
+       1001 George                                                              
+#116 France                                                                     
+#116 France                                        M         25     434524      
+
+CUSTOMER_ID CUSTOMERNAME                                                        
+----------- ------------------------------------------------------------        
+ADDRESS1                                                                        
+--------------------------------------------------                              
+ADDRESS2                                           G        AGE    PHONENO      
+-------------------------------------------------- - ---------- ----------      
+                                                                                
+       1002 Becker                                                              
+#114 New York                                                                   
+#114 New York                                      M         45     431525      
+                                                                                
+
+SQL> desc Cust_Table;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ CUSTOMER_ID                               NOT NULL NUMBER(5)
+ CUSTOMERNAME                              NOT NULL VARCHAR2(60)
+ ADDRESS1                                           VARCHAR2(50)
+ ADDRESS2                                           VARCHAR2(50)
+ GENDER                                             VARCHAR2(1)
+ AGE                                                NUMBER(10)
+ PHONENO                                            NUMBER(10)
+
+SQL> insert into Cust_Table values(1002,'John','#114 Chicago','#114 Chicago','M',45,439525);
+insert into Cust_Table values(1002,'John','#114 Chicago','#114 Chicago','M',45,439525)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (BINDUASSIGNMENT.CUSTID_PRIM) violated 
+
+
+SQL> alter table Cust_Table disable constraint CustId_Prim;
+
+Table altered.
+
+SQL> insert into Cust_Table values(1002,'Becker','#114 New York','#114 New York','M',45,431525);
+
+1 row created.
+
+SQL> insert into Cust_Table values(1003,'Nanaoateker','#115 India','#115 India','M',45,431525);
+
+1 row created.
+
+SQL> select * from Cust_Table;
+
+CUSTOMER_ID CUSTOMERNAME                                                        
+----------- ------------------------------------------------------------        
+ADDRESS1                                                                        
+--------------------------------------------------                              
+ADDRESS2                                           G        AGE    PHONENO      
+-------------------------------------------------- - ---------- ----------      
+       1000 Allen                                                               
+#115 Chicago                                                                    
+#115 Chicago                                       M         25    7878776      
+                                                                                
+       1001 George                                                              
+#116 France                                                                     
+#116 France                                        M         25     434524      
+
+CUSTOMER_ID CUSTOMERNAME                                                        
+----------- ------------------------------------------------------------        
+ADDRESS1                                                                        
+--------------------------------------------------                              
+ADDRESS2                                           G        AGE    PHONENO      
+-------------------------------------------------- - ---------- ----------      
+                                                                                
+       1002 Becker                                                              
+#114 New York                                                                   
+#114 New York                                      M         45     431525      
+                                                                                
+       1002 Becker                                                              
+#114 New York                                                                   
+
+CUSTOMER_ID CUSTOMERNAME                                                        
+----------- ------------------------------------------------------------        
+ADDRESS1                                                                        
+--------------------------------------------------                              
+ADDRESS2                                           G        AGE    PHONENO      
+-------------------------------------------------- - ---------- ----------      
+#114 New York                                      M         45     431525      
+                                                                                
+       1003 Nanaoateker                                                         
+#115 India                                                                      
+#115 India                                         M         45     431525      
+                                                                                
+
+SQL> alter table Cust_Table enable constraint CustId_Prim;
+alter table Cust_Table enable constraint CustId_Prim
+*
+ERROR at line 1:
+ORA-02437: cannot validate (BINDUASSIGNMENT.CUSTID_PRIM) - primary key violated 
+
+
+SQL> alter table Cust_Table drop constraint;
+alter table Cust_Table drop constraint
+                                     *
+ERROR at line 1:
+ORA-02250: missing or invalid constraint name 
+
+
+SQL> alter table Cust_Table drop constraint CustId_Prim;
+
+Table altered.
+
+SQL> insert into Cust_Table values(1002,'Becker','#114 New York','#114 New York','M',45,431525,15000.00);
+insert into Cust_Table values(1002,'Becker','#114 New York','#114 New York','M',45,431525,15000.00)
+            *
+ERROR at line 1:
+ORA-00913: too many values 
+
+
+SQL> truncate table Cust_Table;
+
+Table truncated.
+
+SQL> desc Cust_Table;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ CUSTOMER_ID                                        NUMBER(5)
+ CUSTOMERNAME                              NOT NULL VARCHAR2(60)
+ ADDRESS1                                           VARCHAR2(50)
+ ADDRESS2                                           VARCHAR2(50)
+ GENDER                                             VARCHAR2(1)
+ AGE                                                NUMBER(10)
+ PHONENO                                            NUMBER(10)
+
+SQL> select * from Cust_Table;
+
+no rows selected
+
+SQL> alter table Cust_Table add column email varchar2(50);
+alter table Cust_Table add column email varchar2(50)
+                           *
+ERROR at line 1:
+ORA-00904: : invalid identifier 
+
+
+SQL> alter table Cust_Table add  email varchar2(50);
+
+Table altered.
+
+SQL> alter table Cust_Table drop email varchar2(50);
+alter table Cust_Table drop email varchar2(50)
+                            *
+ERROR at line 1:
+ORA-00905: missing keyword 
+
+
+SQL> alter table Cust_Table drop column email varchar2(50);
+alter table Cust_Table drop column email varchar2(50)
+                                         *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> alter table Cust_Table drop column email;
+
+Table altered.
+
+SQL> create table Suppliers
+  2  
+SQL> 
+SQL> create table Suppliers as (select * from Cust_Table where 1=2);
+
+Table created.
+
+SQL> desc Suppliers;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ CUSTOMER_ID                                        NUMBER(5)
+ CUSTOMERNAME                              NOT NULL VARCHAR2(60)
+ ADDRESS1                                           VARCHAR2(50)
+ ADDRESS2                                           VARCHAR2(50)
+ GENDER                                             VARCHAR2(1)
+ AGE                                                NUMBER(10)
+ PHONENO                                            NUMBER(10)
+
+SQL> alter table Suppliers drop column Gender,Age;
+alter table Suppliers drop column Gender,Age
+                                        *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> alter table Suppliers drop column (Gender,Age);
+alter table Suppliers drop column (Gender,Age)
+                                  *
+ERROR at line 1:
+ORA-00904: : invalid identifier 
+
+
+SQL> alter table Suppliers drop column Gender;
+
+Table altered.
+
+SQL> alter table Suppliers drop column Age;
+
+Table altered.
+
+SQL> spool off;
+SQL> 
+SQL> spool off;
+SQL> 
+SQL> select * from Suppliers;
+
+no rows selected
+
+SQL> desc Suppliers;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ CUSTOMER_ID                                        NUMBER(5)
+ CUSTOMERNAME                              NOT NULL VARCHAR2(60)
+ ADDRESS1                                           VARCHAR2(50)
+ ADDRESS2                                           VARCHAR2(50)
+ PHONENO                                            NUMBER(10)
+
+SQL> alter table Suppliers rename column customer_id to suppid;
+
+Table altered.
+
+SQL> alter table Suppliers rename column customer_name to sname;
+alter table Suppliers rename column customer_name to sname
+                                    *
+ERROR at line 1:
+ORA-00904: "CUSTOMER_NAME": invalid identifier 
+
+
+SQL> alter table Suppliers rename column customername to sname;
+
+Table altered.
+
+SQL> alter table Suppliers rename column address1 to addr1;
+
+Table altered.
+
+SQL> alter table Suppliers rename column address2 to addr2;
+
+Table altered.
+
+SQL> alter table Suppliers rename column phoneno to contactno;
+
+Table altered.
+
+SQL> desc Suppliers;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ SUPPID                                             NUMBER(5)
+ SNAME                                     NOT NULL VARCHAR2(60)
+ ADDR1                                              VARCHAR2(50)
+ ADDR2                                              VARCHAR2(50)
+ CONTACTNO                                          NUMBER(10)
+
+SQL> drop table Suppliers;
+
+Table dropped.
+
+SQL> desc Suppliers;
+ERROR:
+ORA-04043: object Suppliers does not exist 
+
+
+SQL> create table Customer_Master(
+  2  customerid number(5) primary key,
+  3  customername varchar2(30) not null,
+  4  address1 varchar2(30) not null,
+  5  address2 varchar2(30),
+  6  constraint custid_pk primary key (custid));
+constraint custid_pk primary key (custid))
+                     *
+ERROR at line 6:
+ORA-02260: table can have only one primary key 
+
+
+SQL> create table Customer_Master(
+  2  customerid number(5) primary key,
+  3  customername varchar2(30) not null,
+  4  address1 varchar2(30) not null,
+  5  address2 varchar2(30),
+  6  constraint custid_pk primary key (customerid));
+constraint custid_pk primary key (customerid))
+                     *
+ERROR at line 6:
+ORA-02260: table can have only one primary key 
+
+
+SQL> create table Customer_Master(
+  2  customerid number(5),
+  3  customername varchar2(30) not null,
+  4  address1 varchar2(30) not null,
+  5  address2 varchar2(30),
+  6  constraint custid_pk primary key (customerid));
+
+Table created.
+
+SQL> desc Customer_Master;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ CUSTOMERID                                NOT NULL NUMBER(5)
+ CUSTOMERNAME                              NOT NULL VARCHAR2(30)
+ ADDRESS1                                  NOT NULL VARCHAR2(30)
+ ADDRESS2                                           VARCHAR2(30)
+
+SQL> drop table Customer_Master;
+
+Table dropped.
+
+SQL> create table Customer_Master(
+  2  customerid number(5),
+  3  customername varchar2(30) not null,
+  4  address1 varchar2(30) not null,
+  5  address2 varchar2(30),
+  6  gender varchar2(1),
+  7  age number(3),
+  8  phoneno number(10),
+  9  constraint custid_pk primary key (customerid));
+
+Table created.
+
+SQL> desc Customer_Master;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ CUSTOMERID                                NOT NULL NUMBER(5)
+ CUSTOMERNAME                              NOT NULL VARCHAR2(30)
+ ADDRESS1                                  NOT NULL VARCHAR2(30)
+ ADDRESS2                                           VARCHAR2(30)
+ GENDER                                             VARCHAR2(1)
+ AGE                                                NUMBER(3)
+ PHONENO                                            NUMBER(10)
+
+SQL> create table AccountsMaster
+  2  (customerid number(5),
+  3   accountnumber number(10,2),
+  4   accounttype char(3),
+  5  ledgerbalance number(10,2) not null,
+  6  constraint acc_pk primary key (accountnumber));
+
+Table created.
+
+SQL> desc AccountsMaster;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ CUSTOMERID                                         NUMBER(5)
+ ACCOUNTNUMBER                             NOT NULL NUMBER(10,2)
+ ACCOUNTTYPE                                        CHAR(3)
+ LEDGERBALANCE                             NOT NULL NUMBER(10,2)
+
+SQL> create sequence acc_seq start with 100000 increment by 1;
+
+Sequence created.
+
+SQL> alter table AccountsMaster add constraint cust_acc foreign key (customerid)references CustomerMaster(customerid) on delete cascade;
+alter table AccountsMaster add constraint cust_acc foreign key (customerid)references CustomerMaster(customerid) on delete cascade
+                                                                                      *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> alter table AccountsMaster add constraint cust_acc foreign key (customerid)references Customer_Master(customerid) on delete cascade;
+
+Table altered.
+
+SQL> insert into Customer_Master values(1000,'Allen','#115 Chicago','#115 Chicago','M',25,7878776);
+
+1 row created.
+
+SQL> insert into Customer_Master values(1001,'George','#116 France','#116 France','M',25,434524);
+
+1 row created.
+
+SQL> insert into Customer_Master values(1002,'Becker','#114 New York','#114 New York','M',45,431525);
+
+1 row created.
+
+SQL> select * from Customer_Master;
+
+CUSTOMERID CUSTOMERNAME                   ADDRESS1                              
+---------- ------------------------------ ------------------------------        
+ADDRESS2                       G        AGE    PHONENO                          
+------------------------------ - ---------- ----------                          
+      1000 Allen                          #115 Chicago                          
+#115 Chicago                   M         25    7878776                          
+                                                                                
+      1001 George                         #116 France                           
+#116 France                    M         25     434524                          
+                                                                                
+      1002 Becker                         #114 New York                         
+#114 New York                  M         45     431525                          
+                                                                                
+
+SQL> alter table AccountsMaster add constraint check_name
+  2  alter table AccountsMaster add constraint check_name
+  3  alter table AccountsMaster add constraint check_type
+  4  check(accounttype = 'NRI' or accounttype = 'IND');
+alter table AccountsMaster add constraint check_name
+*
+ERROR at line 2:
+ORA-00904: : invalid identifier 
+
+
+SQL> alter table AccountsMaster add constraint check_type
+  2  check(accounttype = 'NRI' or accounttype = 'IND');
+
+Table altered.
+
+SQL> alter table AccountsMaster rename constraint check_type to Balance_Check
+  2  (minimumbalance >=5000);
+alter table AccountsMaster rename constraint check_type to Balance_Check
+*
+ERROR at line 1:
+ORA-23290: This operation may not be combined with any other operation 
+
+
+SQL> alter table AccountsMaster rename constraint check_type to Balance_Check;
+
+Table altered.
+
+SQL> alter table AccountsMaster modify constraint Balance_Check(minimumbalance > 5000);
+alter table AccountsMaster modify constraint Balance_Check(minimumbalance > 5000)
+                                                          *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> alter table AccountsMaster modify constraint Balance_Check(minimumbalance > 5000);
+alter table AccountsMaster modify constraint Balance_Check(minimumbalance > 5000)
+                                                          *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> alter table AccountsMaster modify constraint Balance_Check(minimumbalance > 5000);
+alter table AccountsMaster modify constraint Balance_Check(minimumbalance > 5000)
+                                                          *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> alter table AccountsMaster modify constraint Balance_Check
+  2  check(minimum_balance > 5000);
+check(minimum_balance > 5000)
+*
+ERROR at line 2:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> alter table AccountsMaster add constraint Balance_Check
+  2  check(minimum_balance > 5000);
+check(minimum_balance > 5000)
+      *
+ERROR at line 2:
+ORA-00904: "MINIMUM_BALANCE": invalid identifier 
+
+
+SQL> alter table AccountsMaster modify constraint Balance_Check
+  2  check(ledgerbalance > 5000);
+check(ledgerbalance > 5000)
+*
+ERROR at line 2:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> alter table AccountsMaster modify constraint Balance_Check
+  2  check(ledgerbalance= (min(ledgerbalance) > 5000);
+check(ledgerbalance= (min(ledgerbalance) > 5000)
+*
+ERROR at line 2:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> alter table AccountsMaster modify constraint Balance_Check
+  2  check(ledgerbalance= (min(ledgerbalance) >= 5000);
+check(ledgerbalance= (min(ledgerbalance) >= 5000)
+*
+ERROR at line 2:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> alter table AccountsMaster modify constraint Balance_Check
+  2  check(ledgerbalance= min(ledgerbalance) >= 5000;
+check(ledgerbalance= min(ledgerbalance) >= 5000
+*
+ERROR at line 2:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> alter table AccountsMaster add constraint Balance_Check
+  2  check(ledgerbalance= min(ledgerbalance) >= 5000;
+check(ledgerbalance= min(ledgerbalance) >= 5000
+                     *
+ERROR at line 2:
+ORA-00934: group function is not allowed here 
+
+
+SQL> alter table AccountsMaster add constraint Balance_Check
+  2  check(ledgerbalance= ledgerbalance >= 5000;
+check(ledgerbalance= ledgerbalance >= 5000
+                                   *
+ERROR at line 2:
+ORA-00907: missing right parenthesis 
+
+
+SQL> alter table AccountsMaster add constraint Balance_Check
+  2  check(ledgerbalance= ledgerbalance >= 5000);
+check(ledgerbalance= ledgerbalance >= 5000)
+                                   *
+ERROR at line 2:
+ORA-00907: missing right parenthesis 
+
+
+SQL> alter table AccountsMaster add constraint Balance_Check
+  2  check(ledgerbalance= ledgerbalance >= 5000);
+check(ledgerbalance= ledgerbalance >= 5000)
+                                   *
+ERROR at line 2:
+ORA-00907: missing right parenthesis 
+
+
+SQL> alter table AccountsMaster add constraint Balance_Check
+  2  check(ledgerbalance >= 5000);
+alter table AccountsMaster add constraint Balance_Check
+                                          *
+ERROR at line 1:
+ORA-02264: name already used by an existing constraint 
+
+
+SQL> alter table AccountsMaster modify constraint Balance_Check
+  2  check(ledgerbalance >= 5000);
+check(ledgerbalance >= 5000)
+*
+ERROR at line 2:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> alter table AccountsMaster add constraint Balance_Check
+  2  check(ledgerbalance > 5000);
+alter table AccountsMaster add constraint Balance_Check
+                                          *
+ERROR at line 1:
+ORA-02264: name already used by an existing constraint 
+
+
+SQL> alter table AccountsMaster modify constraint Balance_Check
+  2  check(ledgerbalance > 5000);
+check(ledgerbalance > 5000)
+*
+ERROR at line 2:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> alter table AccountsMaster add constraint ck_Balance_Check
+  2  check(ledgerbalance > 5000);
+
+Table altered.
+
+SQL> alter table AcountsMaster delete where customername='George';
+alter table AcountsMaster delete where customername='George'
+                          *
+ERROR at line 1:
+ORA-01735: invalid ALTER TABLE option 
+
+
+SQL> alter table AccountsMaster drop constraint cust_acc;
+
+Table altered.
+
+SQL> alter table AccountsMaster add constraint cust_acc foreign key (customerid)
+  2  references Customer_Master(customerid);
+
+Table altered.
+
+SQL> alter table AccountsMaster add constraint cust_acc foreign key (customerid)
+  2  references Customer_Master(customerid) on delete cascade;
+alter table AccountsMaster add constraint cust_acc foreign key (customerid)
+                                                   *
+ERROR at line 1:
+ORA-02275: such a referential constraint already exists in the table 
+
+
+SQL> alter table AccountsMaster modify constraint cust_acc foreign key (customerid)
+  2  references Customer_Master(customerid) on delete cascade;
+alter table AccountsMaster modify constraint cust_acc foreign key (customerid)
+                                                      *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> alter table AccountsMaster modify constraint cust_acc foreign key (customerid)
+  2  references Customer_Master(customerid) on delete cascade;
+alter table AccountsMaster modify constraint cust_acc foreign key (customerid)
+                                                      *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> alter table AccountsMaster drop constraint cust_acc;
+
+Table altered.
+
+SQL> alter table AccountsMaster add constraint cust_acc foreign key (customerid)
+  2  references Customer_Master(customerid) on delete cascade;
+
+Table altered.
+
+SQL> create table Account_Details as select * from AccountsMaster;
+
+Table created.
+
+SQL> select * from Account_Details;
+
+no rows selected
+
+SQL> desc Account_Details;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ CUSTOMERID                                         NUMBER(5)
+ ACCOUNTNUMBER                                      NUMBER(10,2)
+ ACCOUNTTYPE                                        CHAR(3)
+ LEDGERBALANCE                             NOT NULL NUMBER(10,2)
+
+SQL> spool off;
+SQL> 
+SQL> select * from Accounts_Master;
+select * from Accounts_Master
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> select * from AccountsMaster;
+
+no rows selected
+
+SQL> desc AccountsMaster;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ CUSTOMERID                                         NUMBER(5)
+ ACCOUNTNUMBER                             NOT NULL NUMBER(10,2)
+ ACCOUNTTYPE                                        CHAR(3)
+ LEDGERBALANCE                             NOT NULL NUMBER(10,2)
+
+SQL> create view Acc_view as
+  2  (select * from AccountsMaster);
+create view Acc_view as
+            *
+ERROR at line 1:
+ORA-01031: insufficient privileges 
+
+
+SQL> connect system
+Connected.
+SQL> grant create view to binduassignment;
+
+Grant succeeded.
+
+SQL> connect binduassignment
+Connected.
+SQL> spool off;
+SQL> 
+SQL> create view Acc_view as
+  2  (select * from AccountsMaster);
+
+View created.
+
+SQL> select * from Acc_view;
+
+no rows selected
+
+SQL> desc Acc_view;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ CUSTOMERID                                         NUMBER(5)
+ ACCOUNTNUMBER                             NOT NULL NUMBER(10,2)
+ ACCOUNTTYPE                                        CHAR(3)
+ LEDGERBALANCE                             NOT NULL NUMBER(10,2)
+
+SQL> alter view Acc_view rename column customerid to CustomerCode;
+alter view Acc_view rename column customerid to CustomerCode
+                    *
+ERROR at line 1:
+ORA-00922: missing or invalid option 
+
+
+SQL> alter table AccountsMaster rename column customerid to CustomerCode;
+
+Table altered.
+
+SQL> desc Acc_view;
+ERROR:
+ORA-24372: invalid object for describe 
+
+
+SQL> select * from Acc_view;
+select * from Acc_view
+              *
+ERROR at line 1:
+ORA-04063: view "BINDUASSIGNMENT.ACC_VIEW" has errors 
+
+
+SQL> drop view Acc_view;
+
+View dropped.
+
+SQL> alter table AccountsMaster rename column customername to AccountHolderName;
+alter table AccountsMaster rename column customername to AccountHolderName
+                                         *
+ERROR at line 1:
+ORA-00904: "CUSTOMERNAME": invalid identifier 
+
+
+SQL> alter table AccountsMaster add AccountHolderName varchar2(50);
+
+Table altered.
+
+SQL> alter table AccountsMaster rename column customername to AccountHolderName;exit
+  2  
+SQL> exit

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<style type="text/css">
+input[type=text]{
+        width:70%;
+        padding:12px 20px;
+        margin:20px 40px;
+        display: inline-block;
+        border: 2px solid #ccc;
+        border-radius: 10px;
+        box-sizing: border-box;
+       }
+       
+input[type=password]{
+        width:70%;
+        padding:12px 20px;
+        margin:20px 40px;
+        display: inline-block;
+        border: 2px solid #ccc;
+        border-radius: 10px;
+        box-sizing: border-box;
+       }
+       
+       input[type=submit]{
+        width:70%;
+        background-color:green;
+        color:pink;
+        padding:12px 20px;
+        margin:45px;
+        border: none;
+        border-radius: 10px;
+        box-sizing: pointer;
+       }
+ input[type=submit]:hover{
+        background-color:light-green;
+ }
+
+div{
+     float:left;
+}
+
+
+</style>
+</head>
+
+<body>
+<div style="width: 100%">
+
+          <div style='width:50%;background-color:grey;height:500px'>
+             <form action="#">
+                 <h1 align="center">Login Form</h1>
+                 <label for="UserName">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UserName</label><br/>
+                 <input type="text" name="lname" placeholder="enter your name">
+                 <br/>
+                 <br/>
+                 <label for="password">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Password</label><br/>
+                 <input type="password" name="pwd" placeholder="enter your password">
+                 <br/>
+                 <br/>
+                 <input type="submit" value="Login">
+              </form>
+           </div>
+           
+            <div style='width:50%;background-color:orange;height:500px'>
+                <form action="#">
+                <h1 align="center">SignUp Form</h1>
+                 <label for="UserName">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UserName</label><br/>
+                 <input type="text" name="lname" placeholder="enter your name">
+                 <br/>
+                 <br/>
+                 <label for="password">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Password</label><br/>
+                 <input type="password" name="pwd" placeholder="enter your password">
+                 <br/>
+                 <br/>
+                 <input type="submit" value="Login">
+              </form>
+           </div>
+            
+            </div>
+            
+</div>
+</body>
+</html>

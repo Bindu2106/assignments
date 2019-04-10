@@ -1,0 +1,623 @@
+Player App
+-------------------
+
+package com.javaprojects.project1.pojos;
+
+import java.util.Date;
+
+public class Player 
+{
+     private int id;
+     private String name;
+     private String gender;
+     private long contact;
+     private String email;
+     private String teamname;
+     private int age;
+     private Date dob;
+     private long score;
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+	public long getContact() {
+		return contact;
+	}
+	public void setContact(long contact) {
+		this.contact = contact;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getTeamname() {
+		return teamname;
+	}
+	public void setTeamname(String teamname) {
+		this.teamname = teamname;
+	}
+	public int getAge() {
+		return age;
+	}
+	public void setAge(int age) {
+		this.age = age;
+	}
+	public Date getDob() {
+		return dob;
+	}
+	public void setDob(Date dob) {
+		this.dob = dob;
+	}
+	public long getScore() {
+		return score;
+	}
+	public void setScore(long score) {
+		this.score = score;
+	}
+     
+     
+}
+
+-----------------------------------------------------------------
+PlayerDao
+-----------------------------------------------------------------
+
+package com.javaprojects.project1.dao;
+
+import java.util.Date;
+import java.util.List;
+
+import com.javaprojects.project1.pojos.Player;
+
+public interface PlayerDao 
+{
+	public List<Player> getAllPlayer();
+	public void addPlayer(Player p);
+	public void deletePlayer(int id);
+	public void updatePlayer(int id,long score);
+	public Player getPlayerById(int id);
+	public List<Player> getPlayerByName(String name);
+	public List<Player> getPlayerByGender(String gender);
+	public Player getPlayerByContact(long contact);
+	public List<Player> getPlayerByTeamname(String teamname);
+	public List<Player> getPlayerByAge(int age);
+	public List<Player> getPlayerByDOB(Date dob);
+	public List<Player> getPlayerByScore(long score);
+	
+	
+}
+
+-------------------------------------------------------------------
+PlayerImpl
+-------------------------------------------------------------------
+
+package com.javaprojects.project1.dao;
+
+import java.sql.Connection;
+import java.util.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.javaprojects.project1.pojos.Player;
+import com.javaprojects.util.DbUtil;
+
+
+
+public class PlayerImpl implements PlayerDao
+{
+	private Connection con;
+	public PlayerImpl()
+	{
+		con=DbUtil.getConnection();
+	}
+	
+	public List<Player> getAllPlayer() 
+	{
+		List<Player> players = new ArrayList<>();
+		String sql = "select * from player";
+		try
+		{
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			while(rs.next())
+			{
+				Player p = new Player();
+				p.setId(rs.getInt(1));
+				p.setName(rs.getString(2));
+				p.setGender(rs.getString(3));
+				p.setContact(rs.getLong(4));
+				p.setEmail(rs.getString(5));
+				p.setTeamname(rs.getString(6));
+				p.setAge(rs.getShort(7));
+				p.setDob(rs.getDate(8));
+				p.setScore(rs.getLong(9));
+				players.add(p);
+			}
+		}
+			catch(SQLException e)
+			{
+				e.printStackTrace();
+			}
+		
+		return players;
+	}
+	@Override
+	public void addPlayer(Player p1) 
+	{
+		String sql = "insert into player values(?,?,?,?,?,?,?,?,?)";
+		try
+		{
+			PreparedStatement pst = con.prepareStatement(sql);
+			pst.setInt(1, p1.getId());
+			pst.setString(2, p1.getName());
+			pst.setString(3, p1.getGender());
+			pst.setLong(4, p1.getContact());
+			pst.setString(5, p1.getEmail());
+			pst.setString(6, p1.getTeamname());
+			pst.setInt(7, p1.getAge());
+			pst.setDate(8, (java.sql.Date) p1.getDob());
+			pst.setLong(9, p1.getScore());
+			int i = pst.executeUpdate();
+			if(i>0)
+				System.out.println("record added");
+			else
+				System.out.println("record not added");
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+}
+	@Override
+	public void deletePlayer(int id) 
+	{
+		String sql = "delete from player where id=?";
+		try
+		{
+			PreparedStatement pst = con.prepareStatement(sql);
+			pst.setInt(1, id);
+			pst.executeUpdate();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		
+	}
+	@Override
+	public void updatePlayer(int id, long score) 
+	{
+		String sql = "update player set score=? where id=?";
+		try
+		{
+			PreparedStatement pst = con.prepareStatement(sql);
+			pst.setLong(1, score);
+			pst.setInt(2, id);
+			pst.executeUpdate();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+	}
+	@Override
+	public Player getPlayerById(int id) 
+	{
+		String sql = "select * from player where id=?";
+		Player players = new Player();
+		try
+		{
+			PreparedStatement pst = con.prepareStatement(sql);
+			pst.setInt(1, id);
+			ResultSet rs = pst.executeQuery();
+			if(rs.next())
+			{
+				players.setId(rs.getInt(1));
+				players.setName(rs.getString(2));
+				players.setGender(rs.getString(3));
+				players.setContact(rs.getLong(4));
+				players.setEmail(rs.getString(5));
+				players.setTeamname(rs.getString(6));
+				players.setAge(rs.getShort(7));
+				players.setDob(rs.getDate(8));
+				players.setScore(rs.getLong(9));
+				
+				}
+			}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return players;
+	}
+	@Override
+	public List<Player> getPlayerByName(String name) 
+	{
+		List<Player> players = new ArrayList<>();
+		String sql = "select * from player where name=?";
+		try
+		{
+			PreparedStatement pst = con.prepareStatement(sql);
+			pst.setString(1, name);
+			ResultSet rs = pst.executeQuery();
+			while(rs.next())
+			{
+				Player p11 = new Player();
+				p11.setId(rs.getInt(1));
+				p11.setName(rs.getString(2));
+				p11.setGender(rs.getString(3));
+				p11.setContact(rs.getLong(4));
+				p11.setEmail(rs.getString(5));
+				p11.setTeamname(rs.getString(6));
+				p11.setAge(rs.getShort(7));
+				p11.setDob(rs.getDate(8));
+				p11.setScore(rs.getLong(9));
+				players.add(p11);
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		return players;
+	}
+	@Override
+	public List<Player> getPlayerByGender(String gender) 
+	{
+		List<Player> players = new ArrayList<>();
+		String sql = "select * from player where gender=?";
+		try
+		{
+			PreparedStatement pst = con.prepareStatement(sql);
+			pst.setString(1, gender);
+			ResultSet rs = pst.executeQuery();
+			while(rs.next())
+			{
+				Player p12 = new Player();
+				p12.setId(rs.getInt(1));
+				p12.setGender(rs.getString(3));
+				p12.setContact(rs.getLong(4));
+				p12.setEmail(rs.getString(5));
+				p12.setTeamname(rs.getString(6));
+				p12.setAge(rs.getShort(7));
+				p12.setDob(rs.getDate(8));
+				p12.setScore(rs.getLong(9));
+				players.add(p12);
+			}
+			}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		return players;
+	}
+	@Override
+	public Player getPlayerByContact(long contact) 
+	{
+		String sql = "select * from player where contact=?";
+		Player players = new Player();
+		try
+		{
+			PreparedStatement pst = con.prepareStatement(sql);
+			pst.setLong(1, contact);
+			ResultSet rs = pst.executeQuery();
+			if(rs.next())
+			{
+				players.setId(rs.getInt(1));
+				players.setName(rs.getString(2));
+				players.setGender(rs.getString(3));
+				players.setContact(rs.getLong(4));
+				players.setEmail(rs.getString(5));
+				players.setTeamname(rs.getString(6));
+				players.setAge(rs.getShort(7));
+				players.setDob(rs.getDate(8));
+				players.setScore(rs.getLong(9));
+				
+				}
+			}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		return players;
+	}
+	@Override
+	public List<Player> getPlayerByTeamname(String teamname) 
+	{
+		List<Player> players = new ArrayList<>();
+		String sql = "select * from player where teamname=?";
+		try
+		{
+			PreparedStatement pst = con.prepareStatement(sql);
+			pst.setString(1, teamname);
+			ResultSet rs = pst.executeQuery();
+			while(rs.next())
+			{
+				Player p2 = new Player();
+				p2.setId(rs.getInt(1));
+				p2.setName(rs.getString(2));
+				p2.setGender(rs.getString(3));
+				p2.setContact(rs.getLong(4));
+				p2.setEmail(rs.getString(5));
+				p2.setTeamname(rs.getString(6));
+				p2.setAge(rs.getShort(7));
+				p2.setDob(rs.getDate(8));
+				p2.setScore(rs.getLong(9));
+				players.add(p2);
+				
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		return players;
+	}
+	@Override
+	public List<Player> getPlayerByAge(int age) 
+	{
+		
+		List<Player> players = new ArrayList<>();
+		String sql = "select * from player where age=?";
+		try
+		{
+			PreparedStatement pst = con.prepareStatement(sql);
+			pst.setInt(1, age);
+			ResultSet rs = pst.executeQuery();
+			while(rs.next())
+			{
+				Player p3 = new Player();
+				p3.setId(rs.getInt(1));
+				p3.setName(rs.getString(2));
+				p3.setGender(rs.getString(3));
+				p3.setContact(rs.getLong(4));
+				p3.setEmail(rs.getString(5));
+				p3.setTeamname(rs.getString(6));
+				p3.setAge(rs.getShort(7));
+				p3.setDob(rs.getDate(8));
+				p3.setScore(rs.getLong(9));
+				players.add(p3);
+				
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		return players;
+	}
+	
+	@Override
+	public List<Player> getPlayerByDOB(Date dob) 
+	{
+		
+		List<Player> players = new ArrayList<>();
+		String sql = "select * from player where dob=?";
+		try
+		{
+			PreparedStatement pst = con.prepareStatement(sql);
+			Date d = dob;
+			java.sql.Date dob1 = new java.sql.Date(d.getTime());
+			pst.setDate(1, dob1);
+			ResultSet rs = pst.executeQuery();
+			while(rs.next())
+			{
+				Player p4 = new Player();
+				p4.setId(rs.getInt(1));
+				p4.setName(rs.getString(2));
+				p4.setGender(rs.getString(3));
+				p4.setContact(rs.getLong(4));
+				p4.setEmail(rs.getString(5));
+				p4.setTeamname(rs.getString(6));
+				p4.setAge(rs.getShort(7));
+				p4.setDob(rs.getDate(8));
+				p4.setScore(rs.getLong(9));
+				players.add(p4);
+				
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		return players;
+	}
+	
+	@Override
+	public List<Player> getPlayerByScore(long score) 
+	{
+		
+		List<Player> players = new ArrayList<>();
+		String sql = "select * from player where score=?";
+		try
+		{
+			PreparedStatement pst = con.prepareStatement(sql);
+			pst.setLong(1, score);
+			ResultSet rs = pst.executeQuery();
+			while(rs.next())
+			{
+				Player p5 = new Player();
+				p5.setId(rs.getInt(1));
+				p5.setName(rs.getString(2));
+				p5.setGender(rs.getString(3));
+				p5.setContact(rs.getLong(4));
+				p5.setEmail(rs.getString(5));
+				p5.setTeamname(rs.getString(6));
+				p5.setAge(rs.getShort(7));
+				p5.setDob(rs.getDate(8));
+				p5.setScore(rs.getLong(9));
+				players.add(p5);
+				
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		return players;
+	}
+	}
+	
+	
+
+
+----------------------------------------------------------------------------
+PlayerApp
+----------------------------------------------------------------------------
+
+package com.javaprojects.project1.view;
+
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.Scanner;
+
+import com.javaprojects.project1.dao.PlayerDao;
+import com.javaprojects.project1.dao.PlayerImpl;
+import com.javaprojects.project1.dao.ProductDao;
+import com.javaprojects.project1.dao.ProductDaoimpl;
+import com.javaprojects.project1.pojos.Player;
+import com.javaprojects.project1.pojos.Product;
+
+public class PlayerApp 
+{
+
+	public static void main(String[] args) throws ParseException 
+	{
+		System.out.println("Welcome");
+		Scanner sc = new Scanner(System.in);
+		do
+		{
+			System.out.println("1. Select Players \n"
+		              + "2. Add Player \n"
+		              + "3. Delete Player \n"
+		              + "4. Update Player \n"
+		              + "5. Select Player by Id \n"
+		              + "6. Select Player by Name \n"
+		              + "7. Select Player by Gender \n"
+		              + "8. Select Player by Contact \n"
+		              + "9. Select Player by Teamname \n"
+		              + "10. Select Player by Age \n"
+		              + "11. Select Player by Dob \n"
+		              + "12. Select Player by Score");
+			
+			PlayerDao playerDao = new PlayerImpl();
+			int choice = sc.nextInt();
+			switch(choice)
+			{
+			case 1:System.out.println("List of Players \n");
+			  List<Player> play = playerDao.getAllPlayer();
+	          play.forEach((p) -> System.out.println(p.getId() + " " + p.getName() + " " +
+	          p.getGender() + " " + p.getContact() + " " + p.getEmail() + " " + p.getTeamname()
+	          + " " + p.getAge() + " " + p.getDob() + " " + p.getScore()));
+	          break;
+			case 2:System.out.println("enter the players to add");
+	          Player p1 = new Player();
+	          p1.setId(sc.nextInt());
+	          p1.setName(sc.next());
+	          p1.setGender(sc.next());
+	          p1.setContact(sc.nextLong());
+	          p1.setEmail(sc.next());
+	          p1.setTeamname(sc.next());
+	          p1.setAge(sc.nextInt());
+	          String dob1 = sc.next();
+	          java.util.Date d1= new SimpleDateFormat("dd-MMM-yyyy").parse(dob1);
+              p1.setDob(d1);
+	          p1.setScore(sc.nextLong());
+	          playerDao.addPlayer(p1);
+	          break;
+			case 3:System.out.println("enter the player id to delete");
+	          playerDao.deletePlayer(sc.nextInt());
+	          break;
+			case 4:System.out.println("enter the  id and score update");
+	          playerDao.updatePlayer(sc.nextInt(), sc.nextLong());
+	          break;
+		   case 5:System.out.println("enter the player id");
+	          Player p = playerDao.getPlayerById(sc.nextInt());
+	          System.out.println(p.getId() + " " + p.getName() + " " + 
+	          p.getGender() + " " + p.getContact() + " "+ p.getEmail()+" "+
+	          p.getTeamname()+" "+p.getAge()+" "+p.getDob()+" "+p.getScore());
+	          break;
+		   case 6:System.out.println("enter the player name");
+	          List<Player> players=playerDao.getPlayerByName(sc.next());
+	          players.forEach((p11) -> System.out.println(p11.getId() + " "+p11.getName() + " " +
+	          p11.getGender() + " " + p11.getContact()+" "+p11.getEmail()+" "+p11.getTeamname()+" "
+	          +p11.getAge() +" "+p11.getDob()+" "+p11.getScore()));
+	          break;
+		   case 7:System.out.println("enter the player gender");
+		   List<Player> player7=playerDao.getPlayerByName(sc.next());
+	          player7.forEach((p12) -> System.out.println(p12.getId() + " "+p12.getName() + " " +
+	          p12.getGender() + " " + p12.getContact()+" "+p12.getEmail()+" "+p12.getTeamname()+" "
+	          +p12.getAge() +" "+p12.getDob()+" "+p12.getScore()));
+	          break;
+		   case 8:System.out.println("enter the player contact");
+	          Player p2 = playerDao.getPlayerById(sc.nextInt());
+	          System.out.println(p2.getId() + " " + p2.getName() + " " + 
+	          p2.getGender() + " " + p2.getContact() + " "+ p2.getEmail()+" "+
+	          p2.getTeamname()+" "+p2.getAge()+" "+p2.getDob()+" "+p2.getScore());
+	          break;
+		   case 9:System.out.println("enter the player teamname");
+	          List<Player> players1=playerDao.getPlayerByName(sc.next());
+	          players1.forEach((p11) -> System.out.println(p11.getId() + " "+p11.getName() + " " +
+	          p11.getGender() + " " + p11.getContact()+" "+p11.getEmail()+" "+p11.getTeamname()+" "
+	          +p11.getAge() +" "+p11.getDob()+" "+p11.getScore()));
+	          break;
+		   case 10:System.out.println("enter the player age");
+	          List<Player> players2=playerDao.getPlayerByName(sc.next());
+	          players2.forEach((p11) -> System.out.println(p11.getId() + " "+p11.getName() + " " +
+	          p11.getGender() + " " + p11.getContact()+" "+p11.getEmail()+" "+p11.getTeamname()+" "
+	          +p11.getAge() +" "+p11.getDob()+" "+p11.getScore()));
+	          break;
+		   case 11:System.out.println("enter the player dob");
+		   List<Player> player4=playerDao.getPlayerByName(sc.next());
+	          player4.forEach((p11) -> System.out.println(p11.getId() + " "+p11.getName() + " " +
+	          p11.getGender() + " " + p11.getContact()+" "+p11.getEmail()+" "+p11.getTeamname()+" "
+	          +p11.getAge() +" "+p11.getDob()+" "+p11.getScore()));
+	          break;
+			  
+		   case 12:System.out.println("enter the player score");
+	          List<Player> players3=playerDao.getPlayerByName(sc.next());
+	          players3.forEach((p11) -> System.out.println(p11.getId() + " "+p11.getName() + " " +
+	          p11.getGender() + " " + p11.getContact()+" "+p11.getEmail()+" "+p11.getTeamname()+" "
+	          +p11.getAge() +" "+p11.getDob()+" "+p11.getScore()));
+	          break;
+			
+			}
+			
+ 
+		}while(true);
+		
+	}
+
+}

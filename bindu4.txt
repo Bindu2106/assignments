@@ -1,0 +1,1164 @@
+SQL> 14 march 2019
+SQL> 
+SQL> select * from employee;
+
+     EMPNO ENAME                              DEPTNO HIREDATE      SALARY       
+---------- ------------------------------ ---------- --------- ----------       
+COMMISSION JCODE           MGRNO                                                
+---------- ---------- ----------                                                
+       111 BINDU                                   1 12-JAN-19      20000       
+        20 j01                                                                  
+                                                                                
+       112 KRISHNA                                 1 15-JAN-19      20000       
+        20 j01                                                                  
+                                                                                
+       113 GEETHA                                  2 12-FEB-19      20000       
+        20 j01               111                                                
+                                                                                
+
+     EMPNO ENAME                              DEPTNO HIREDATE      SALARY       
+---------- ------------------------------ ---------- --------- ----------       
+COMMISSION JCODE           MGRNO                                                
+---------- ---------- ----------                                                
+       114 JAYA                                    5 21-FEB-19      10000       
+        22 j04               112                                                
+                                                                                
+       115 VASANT                                  4 01-MAR-19      50000       
+        30 j05               113                                                
+                                                                                
+       116 PANDU                                   4 06-MAR-19      55000       
+        30 j01               112                                                
+                                                                                
+
+     EMPNO ENAME                              DEPTNO HIREDATE      SALARY       
+---------- ------------------------------ ---------- --------- ----------       
+COMMISSION JCODE           MGRNO                                                
+---------- ---------- ----------                                                
+       117 SAHITH                                  4 06-APR-19      45000       
+        30 j04               111                                                
+                                                                                
+
+7 rows selected.
+
+SQL> select jcode from job where jname is null;
+
+no rows selected
+
+SQL> select distinct deptno from employee;
+
+    DEPTNO                                                                      
+----------                                                                      
+         1                                                                      
+         2                                                                      
+         5                                                                      
+         4                                                                      
+
+SQL> select empno,ename from employee order by ename;
+
+     EMPNO ENAME                                                                
+---------- ------------------------------                                       
+       111 BINDU                                                                
+       113 GEETHA                                                               
+       114 JAYA                                                                 
+       112 KRISHNA                                                              
+       116 PANDU                                                                
+       117 SAHITH                                                               
+       115 VASANT                                                               
+
+7 rows selected.
+
+SQL> select empno,ename from employee order by ename desc;
+
+     EMPNO ENAME                                                                
+---------- ------------------------------                                       
+       115 VASANT                                                               
+       117 SAHITH                                                               
+       116 PANDU                                                                
+       112 KRISHNA                                                              
+       114 JAYA                                                                 
+       113 GEETHA                                                               
+       111 BINDU                                                                
+
+7 rows selected.
+
+SQL> select ename from employee where salary between 10000 and 30000;
+
+ENAME                                                                           
+------------------------------                                                  
+BINDU                                                                           
+KRISHNA                                                                         
+GEETHA                                                                          
+JAYA                                                                            
+
+SQL> select ename from employee where deptnoin(1,4,5);
+select ename from employee where deptnoin(1,4,5)
+                                               *
+ERROR at line 1:
+ORA-00920: invalid relational operator 
+
+
+SQL> select ename from employee where deptno in (1,4,5);
+
+ENAME                                                                           
+------------------------------                                                  
+BINDU                                                                           
+KRISHNA                                                                         
+JAYA                                                                            
+VASANT                                                                          
+PANDU                                                                           
+SAHITH                                                                          
+
+6 rows selected.
+
+SQL> select ename from employee where ename like 'B%';
+
+ENAME                                                                           
+------------------------------                                                  
+BINDU                                                                           
+
+SQL> select ename from employee where ename like 'v%';
+
+no rows selected
+
+SQL> select ename from employee where ename like 'V%';
+
+ENAME                                                                           
+------------------------------                                                  
+VASANT                                                                          
+
+SQL> select ename from employee where ename like "_A%';
+ERROR:
+ORA-01740: missing double quote in identifier 
+
+
+SQL> select ename from employee where ename like "_A%";
+select ename from employee where ename like "_A%"
+                                            *
+ERROR at line 1:
+ORA-00904: "_A%": invalid identifier 
+
+
+SQL> select ename from employee where ename like '_A%';
+
+ENAME                                                                           
+------------------------------                                                  
+JAYA                                                                            
+VASANT                                                                          
+PANDU                                                                           
+SAHITH                                                                          
+
+SQL> select ename from employee where salary + commission > 10000;
+
+ENAME                                                                           
+------------------------------                                                  
+BINDU                                                                           
+KRISHNA                                                                         
+GEETHA                                                                          
+JAYA                                                                            
+VASANT                                                                          
+PANDU                                                                           
+SAHITH                                                                          
+
+7 rows selected.
+
+SQL> select empno,ename,hiredate from employee where rownum<=3 order by hiredate;
+
+     EMPNO ENAME                          HIREDATE                              
+---------- ------------------------------ ---------                             
+       111 BINDU                          12-JAN-19                             
+       112 KRISHNA                        15-JAN-19                             
+       113 GEETHA                         12-FEB-19                             
+
+SQL> select empno,ename,hiredate from (select empno,ename,hiredate from employee order by hiredate) where rownum<=3;
+
+     EMPNO ENAME                          HIREDATE                              
+---------- ------------------------------ ---------                             
+       111 BINDU                          12-JAN-19                             
+       112 KRISHNA                        15-JAN-19                             
+       113 GEETHA                         12-FEB-19                             
+
+SQL> select ename from employee where jcode='j03';
+
+no rows selected
+
+SQL> select ename from employee where jcode='j04';
+
+ENAME                                                                           
+------------------------------                                                  
+JAYA                                                                            
+SAHITH                                                                          
+
+SQL> select ename from employee where hiredate < '01-JAN-20';
+
+ENAME                                                                           
+------------------------------                                                  
+BINDU                                                                           
+KRISHNA                                                                         
+GEETHA                                                                          
+JAYA                                                                            
+VASANT                                                                          
+PANDU                                                                           
+SAHITH                                                                          
+
+7 rows selected.
+
+SQL> select ename from employee where hiredate < '01-MAR-19';
+
+ENAME                                                                           
+------------------------------                                                  
+BINDU                                                                           
+KRISHNA                                                                         
+GEETHA                                                                          
+JAYA                                                                            
+
+SQL> select ename from employee where jname like '%JAYA%';
+select ename from employee where jname like '%JAYA%'
+                                 *
+ERROR at line 1:
+ORA-00904: "JNAME": invalid identifier 
+
+
+SQL> select ename from employee where ename like '%JAYA%';
+
+ENAME                                                                           
+------------------------------                                                  
+JAYA                                                                            
+
+SQL> select ename from employee where ename like '%J%';
+
+ENAME                                                                           
+------------------------------                                                  
+JAYA                                                                            
+
+SQL> select ename from employee where hiredate between '01-JAN-19' and '01-MAR-19;
+ERROR:
+ORA-01756: quoted string not properly terminated 
+
+
+SQL> select ename from employee where hiredate between '01-JAN-19' and '01-MAR-19';
+
+ENAME                                                                           
+------------------------------                                                  
+BINDU                                                                           
+KRISHNA                                                                         
+GEETHA                                                                          
+JAYA                                                                            
+VASANT                                                                          
+
+SQL> spool off;
+SQL> 
+SQL> select ename from employee where commission > 0;
+
+ENAME                                                                           
+------------------------------                                                  
+BINDU                                                                           
+KRISHNA                                                                         
+GEETHA                                                                          
+JAYA                                                                            
+VASANT                                                                          
+PANDU                                                                           
+SAHITH                                                                          
+
+7 rows selected.
+
+SQL> spool off;
+SQL> 
+SQL> select ename,jname from employee e left outer join on job j where e.jcode=j.jcode;
+select ename,jname from employee e left outer join on job j where e.jcode=j.jcode
+                                                   *
+ERROR at line 1:
+ORA-00903: invalid table name 
+
+
+SQL> select ename,jname from employee e inner join job j on e.jcode=j.jcode;
+
+ENAME                          JNAME                                            
+------------------------------ ----------                                       
+GEETHA                         TESTER                                           
+KRISHNA                        TESTER                                           
+BINDU                          TESTER                                           
+JAYA                           TECHWRITER                                       
+
+SQL> select * from employee;
+
+     EMPNO ENAME                              DEPTNO HIREDATE      SALARY       
+---------- ------------------------------ ---------- --------- ----------       
+COMMISSION JCODE           MGRNO                                                
+---------- ---------- ----------                                                
+       111 BINDU                                   1 12-JAN-19      20000       
+        20 j01                                                                  
+                                                                                
+       112 KRISHNA                                 1 15-JAN-19      20000       
+        20 j01                                                                  
+                                                                                
+       113 GEETHA                                  2 12-FEB-19      20000       
+        20 j01               111                                                
+                                                                                
+
+     EMPNO ENAME                              DEPTNO HIREDATE      SALARY       
+---------- ------------------------------ ---------- --------- ----------       
+COMMISSION JCODE           MGRNO                                                
+---------- ---------- ----------                                                
+       114 JAYA                                    5 21-FEB-19      10000       
+        22 j04               112                                                
+                                                                                
+
+SQL> select ename,jname from employee e left outer join job j on e.jcode=j.jcode;
+
+ENAME                          JNAME                                            
+------------------------------ ----------                                       
+GEETHA                         TESTER                                           
+KRISHNA                        TESTER                                           
+BINDU                          TESTER                                           
+JAYA                           TECHWRITER                                       
+
+SQL> select ename,jname from employee e right outer join job j on e.jcode=j.jcode;
+
+ENAME                          JNAME                                            
+------------------------------ ----------                                       
+BINDU                          TESTER                                           
+KRISHNA                        TESTER                                           
+GEETHA                         TESTER                                           
+JAYA                           TECHWRITER                                       
+                               ANALYST                                          
+                               ARCHITECH                                        
+                               DEVELOPER                                        
+
+7 rows selected.
+
+SQL> select ename,jname from employee e full outer join job j on e.jcode=j.jcode;
+
+ENAME                          JNAME                                            
+------------------------------ ----------                                       
+GEETHA                         TESTER                                           
+KRISHNA                        TESTER                                           
+BINDU                          TESTER                                           
+                               DEVELOPER                                        
+                               ANALYST                                          
+JAYA                           TECHWRITER                                       
+                               ARCHITECH                                        
+
+7 rows selected.
+
+SQL> select ename,jname from employee e cross join job j on e.jcode=j.jcode;
+select ename,jname from employee e cross join job j on e.jcode=j.jcode
+                                                    *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> spool off;
+SQL> 
+SQL> select dname,lname from department d inner join location l on d.lcode=l.lcode;
+
+DNAME                LNAME                                                      
+-------------------- ------------------------------                             
+training             BAGAMANE                                                   
+training             MYSORE                                                     
+production           MASCOT                                                     
+sales                MASCOT                                                     
+sales                MYSORE                                                     
+hr                   MYSORE                                                     
+hr                   STP                                                        
+
+7 rows selected.
+
+SQL> spool off;
+SQL> 
+SQL> select ename,jname from employee e inner join job j on e.jcode=j.jcode;
+
+ENAME                          JNAME                                            
+------------------------------ ----------                                       
+GEETHA                         TESTER                                           
+KRISHNA                        TESTER                                           
+BINDU                          TESTER                                           
+JAYA                           TECHWRITER                                       
+
+SQL> select ename,jname from employee e inner join job j on e.jcode=j.jcode where deptno=3;
+
+no rows selected
+
+SQL> select ename,jname from employee e inner join job j on e.jcode=j.jcode where deptno=4;
+
+no rows selected
+
+SQL> select ename,jname from employee e inner join job j on e.jcode=j.jcode where deptno=1;
+
+ENAME                          JNAME                                            
+------------------------------ ----------                                       
+BINDU                          TESTER                                           
+KRISHNA                        TESTER                                           
+
+SQL> select ename,jname from employee e left outer join job j on e.jcode=j.jcode where deptno=1;
+
+ENAME                          JNAME                                            
+------------------------------ ----------                                       
+BINDU                          TESTER                                           
+KRISHNA                        TESTER                                           
+
+SQL> spool off;
+SQL> 
+SQL> select * from employee;
+
+     EMPNO ENAME                              DEPTNO HIREDATE      SALARY       
+---------- ------------------------------ ---------- --------- ----------       
+COMMISSION JCODE           MGRNO                                                
+---------- ---------- ----------                                                
+       111 BINDU                                   1 12-JAN-19      20000       
+        20 j01                                                                  
+                                                                                
+       112 KRISHNA                                 1 15-JAN-19      20000       
+        20 j01                                                                  
+                                                                                
+       113 GEETHA                                  2 12-FEB-19      20000       
+        20 j01               111                                                
+                                                                                
+
+     EMPNO ENAME                              DEPTNO HIREDATE      SALARY       
+---------- ------------------------------ ---------- --------- ----------       
+COMMISSION JCODE           MGRNO                                                
+---------- ---------- ----------                                                
+       114 JAYA                                    5 21-FEB-19      10000       
+        22 j04               112                                                
+                                                                                
+
+SQL> select ename,dname from employee e inner join department d on e.deptno=d.deptno;
+
+ENAME                          DNAME                                            
+------------------------------ --------------------                             
+KRISHNA                        training                                         
+BINDU                          training                                         
+GEETHA                         training                                         
+JAYA                           sales                                            
+
+SQL> select ename,dname from employee e inner join department d on e.deptno=d.deptno where jname='sales';
+select ename,dname from employee e inner join department d on e.deptno=d.deptno where jname='sales'
+                                                                                      *
+ERROR at line 1:
+ORA-00904: "JNAME": invalid identifier 
+
+
+SQL> select ename,dname from employee e inner join department d on e.deptno=d.deptno where job jname='sales';
+select ename,dname from employee e inner join department d on e.deptno=d.deptno where job jname='sales'
+                                                                                          *
+ERROR at line 1:
+ORA-00920: invalid relational operator 
+
+
+SQL> select ename,dname from employee e inner join department d on e.deptno=d.deptno where jcode='j01';
+
+ENAME                          DNAME                                            
+------------------------------ --------------------                             
+KRISHNA                        training                                         
+BINDU                          training                                         
+GEETHA                         training                                         
+
+SQL> select ename,dname from employee e inner join department d,job j on e.deptno=d.deptno where jnamee='sales';
+select ename,dname from employee e inner join department d,job j on e.deptno=d.deptno where jnamee='sales'
+                                                          *
+ERROR at line 1:
+ORA-00905: missing keyword 
+
+
+SQL> select ename,dname from employee e inner join department d,job on e.deptno=d.deptno where jnamee='sales';
+select ename,dname from employee e inner join department d,job on e.deptno=d.deptno where jnamee='sales'
+                                                          *
+ERROR at line 1:
+ORA-00905: missing keyword 
+
+
+SQL> select ename,dname from employee e full outer join department d,job on e.deptno=d.deptno where jnamee='sales';
+select ename,dname from employee e full outer join department d,job on e.deptno=d.deptno where jnamee='sales'
+                                                               *
+ERROR at line 1:
+ORA-00905: missing keyword 
+
+
+SQL> select ename,dname from employee e, department d and job j where e.deptno=d.deptno where jnamee='sales';
+select ename,dname from employee e, department d and job j where e.deptno=d.deptno where jnamee='sales'
+                                                 *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> select ename,dname from employee e, department d and job j where (e.deptno=d.deptno) and (j.jnamee='sales');
+select ename,dname from employee e, department d and job j where (e.deptno=d.deptno) and (j.jnamee='sales')
+                                                 *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> select ename,dname from employee e, department d, job j where (e.deptno=d.deptno) and (j.jnamee='sales');
+select ename,dname from employee e, department d, job j where (e.deptno=d.deptno) and (j.jnamee='sales')
+                                                                                       *
+ERROR at line 1:
+ORA-00904: "J"."JNAMEE": invalid identifier 
+
+
+SQL> select ename,dname from employee e, department d, job j where (e.deptno=d.deptno) and (j.jname='sales');
+
+no rows selected
+
+SQL> select ename,dname from employee e, department d, job j where (e.deptno=d.deptno) and (j.jname='training');
+
+no rows selected
+
+SQL> select ename,dname,jname from employee e, department d, job j where (e.deptno=d.deptno) and (j.jname='training');
+
+no rows selected
+
+SQL> select ename,dname,jname from employee e, department d, job j where (e.deptno=d.deptno) and (j.jname='TECHWRITER');
+
+ENAME                          DNAME                JNAME                       
+------------------------------ -------------------- ----------                  
+KRISHNA                        training             TECHWRITER                  
+BINDU                          training             TECHWRITER                  
+GEETHA                         training             TECHWRITER                  
+JAYA                           sales                TECHWRITER                  
+
+SQL> select * from job;
+
+JCODE      JNAME                                                                
+---------- ----------                                                           
+j01        TESTER                                                               
+j02        DEVELOPER                                                            
+j03        ANALYST                                                              
+j04        TECHWRITER                                                           
+j05        ARCHITECH                                                            
+
+SQL> select * from employee;
+
+     EMPNO ENAME                              DEPTNO HIREDATE      SALARY       
+---------- ------------------------------ ---------- --------- ----------       
+COMMISSION JCODE           MGRNO                                                
+---------- ---------- ----------                                                
+       111 BINDU                                   1 12-JAN-19      20000       
+        20 j01                                                                  
+                                                                                
+       112 KRISHNA                                 1 15-JAN-19      20000       
+        20 j01                                                                  
+                                                                                
+       113 GEETHA                                  2 12-FEB-19      20000       
+        20 j01               111                                                
+                                                                                
+
+     EMPNO ENAME                              DEPTNO HIREDATE      SALARY       
+---------- ------------------------------ ---------- --------- ----------       
+COMMISSION JCODE           MGRNO                                                
+---------- ---------- ----------                                                
+       114 JAYA                                    5 21-FEB-19      10000       
+        22 j04               112                                                
+                                                                                
+
+SQL> select ename,dname from employee e inner join department d on e.deptno=d.deptno;
+
+ENAME                          DNAME                                            
+------------------------------ --------------------                             
+KRISHNA                        training                                         
+BINDU                          training                                         
+GEETHA                         training                                         
+JAYA                           sales                                            
+
+SQL> select ename,dname from employee e inner join department d on e.deptno=d.deptno;
+
+ENAME                          DNAME                                            
+------------------------------ --------------------                             
+KRISHNA                        training                                         
+BINDU                          training                                         
+GEETHA                         training                                         
+JAYA                           sales                                            
+
+SQL> spool off;
+SQL> 
+SQL> select dname,lname from department d inner join location l on d.lcode=l.lcode;
+
+DNAME                LNAME                                                      
+-------------------- ------------------------------                             
+training             BAGAMANE                                                   
+training             MYSORE                                                     
+production           MASCOT                                                     
+sales                MASCOT                                                     
+sales                MYSORE                                                     
+hr                   MYSORE                                                     
+hr                   STP                                                        
+
+7 rows selected.
+
+SQL> select * from job;
+
+JCODE      JNAME                                                                
+---------- ----------                                                           
+j01        TESTER                                                               
+j02        DEVELOPER                                                            
+j03        ANALYST                                                              
+j04        TECHWRITER                                                           
+j05        ARCHITECH                                                            
+
+SQL> select e.ename,d.dname from employee e,department d where
+  2  e.deptno=d.deptno and
+  3  e.jcode=j.jcode and
+  4  j.jname='TECHWRITER';
+j.jname='TECHWRITER'
+*
+ERROR at line 4:
+ORA-00904: "J"."JNAME": invalid identifier 
+
+
+SQL> select e.ename,d.dname from employee e,department d,job j where
+  2  e.deptno=d.deptno and
+  3  e.jcode=j.jcode and
+  4  j.jname='TECHWRITER';
+
+ENAME                          DNAME                                            
+------------------------------ --------------------                             
+JAYA                           sales                                            
+
+SQL> spool off;
+SQL> 
+SQL> select e.ename,d.dname,j.jname,l.lname from employee e,department d,job j,location l where
+  2  e.deptno=d.deptno and
+  3  e.jcode=j.jcode and
+  4  d.lcode=l.lcode;
+
+ENAME                          DNAME                JNAME                       
+------------------------------ -------------------- ----------                  
+LNAME                                                                           
+------------------------------                                                  
+KRISHNA                        training             TESTER                      
+BAGAMANE                                                                        
+                                                                                
+BINDU                          training             TESTER                      
+BAGAMANE                                                                        
+                                                                                
+JAYA                           sales                TECHWRITER                  
+MYSORE                                                                          
+                                                                                
+
+ENAME                          DNAME                JNAME                       
+------------------------------ -------------------- ----------                  
+LNAME                                                                           
+------------------------------                                                  
+GEETHA                         training             TESTER                      
+MYSORE                                                                          
+                                                                                
+
+SQL> select e.ename,d.dname,j.jname,l.lname from employee e,department d,job j,location l where
+  2  e.deptno=d.deptno and
+  3  e.jcode=j.jcode and
+  4  d.lcode=l.lcode and
+  5  j.jname='TECHWRITER';
+
+ENAME                          DNAME                JNAME                       
+------------------------------ -------------------- ----------                  
+LNAME                                                                           
+------------------------------                                                  
+JAYA                           sales                TECHWRITER                  
+MYSORE                                                                          
+                                                                                
+
+SQL> spool off;
+SQL> 
+SQL> 15-03-19
+SP2-0042: unknown command "15-03-19" - rest of line ignored.
+SQL> 
+SQL> spool off;
+SQL> 
+SQL> select dname from department d where deptno= any (select deptno from employee e where e.deptno=d.deptno);
+
+DNAME                                                                           
+--------------------                                                            
+training                                                                        
+training                                                                        
+sales                                                                           
+
+SQL> select * from employee;
+
+     EMPNO ENAME                              DEPTNO HIREDATE      SALARY       
+---------- ------------------------------ ---------- --------- ----------       
+COMMISSION JCODE           MGRNO                                                
+---------- ---------- ----------                                                
+       111 BINDU                                   1 12-JAN-19      20000       
+        20 j01                                                                  
+                                                                                
+       112 KRISHNA                                 1 15-JAN-19      20000       
+        20 j01                                                                  
+                                                                                
+       113 GEETHA                                  2 12-FEB-19      20000       
+        20 j01               111                                                
+                                                                                
+
+     EMPNO ENAME                              DEPTNO HIREDATE      SALARY       
+---------- ------------------------------ ---------- --------- ----------       
+COMMISSION JCODE           MGRNO                                                
+---------- ---------- ----------                                                
+       114 JAYA                                    5 21-FEB-19      10000       
+        22 j04               112                                                
+                                                                                
+
+SQL> select * from department;
+
+    DEPTNO DNAME                LCODE                                           
+---------- -------------------- -----                                           
+         1 training             l01                                             
+         2 training             l03                                             
+         3 production           l02                                             
+         4 sales                l02                                             
+         5 sales                l03                                             
+         6 hr                   l03                                             
+         7 hr                   l04                                             
+
+7 rows selected.
+
+SQL> select dname from department d where deptno= any (select deptno from employee e where d.deptno=e.deptno);
+
+DNAME                                                                           
+--------------------                                                            
+training                                                                        
+training                                                                        
+sales                                                                           
+
+SQL> select dname from department d where deptno= all (select deptno from employee e where d.deptno=e.deptno);
+
+DNAME                                                                           
+--------------------                                                            
+training                                                                        
+training                                                                        
+production                                                                      
+sales                                                                           
+sales                                                                           
+hr                                                                              
+hr                                                                              
+
+7 rows selected.
+
+SQL> select dname from department d where deptno= some (select deptno from employee e where d.deptno=e.deptno);
+
+DNAME                                                                           
+--------------------                                                            
+training                                                                        
+training                                                                        
+sales                                                                           
+
+SQL> select dname from department d where deptno exists (select deptno from employee e where d.deptno=e.deptno);
+select dname from department d where deptno exists (select deptno from employee e where d.deptno=e.deptno)
+                                            *
+ERROR at line 1:
+ORA-00920: invalid relational operator 
+
+
+SQL> select dname from department d where deptno exists (select 1 from employee e where d.deptno=e.deptno);
+select dname from department d where deptno exists (select 1 from employee e where d.deptno=e.deptno)
+                                            *
+ERROR at line 1:
+ORA-00920: invalid relational operator 
+
+
+SQL> select d.dname from department d where d.deptno exists (select 1 from employee e where d.deptno=e.deptno);
+select d.dname from department d where d.deptno exists (select 1 from employee e where d.deptno=e.deptno)
+                                                *
+ERROR at line 1:
+ORA-00920: invalid relational operator 
+
+
+SQL> select d.dname from department d where deptno exists (select 1 from employee e where d.deptno=e.deptno);
+select d.dname from department d where deptno exists (select 1 from employee e where d.deptno=e.deptno)
+                                              *
+ERROR at line 1:
+ORA-00920: invalid relational operator 
+
+
+SQL> select d.dname from department d where d.deptno exists (select 1 from employee e where e.deptno=d.deptno);
+select d.dname from department d where d.deptno exists (select 1 from employee e where e.deptno=d.deptno)
+                                                *
+ERROR at line 1:
+ORA-00920: invalid relational operator 
+
+
+SQL> select d.dname from department d where exists (select 1 from employee e where e.deptno=d.deptno);
+
+DNAME                                                                           
+--------------------                                                            
+training                                                                        
+training                                                                        
+sales                                                                           
+
+SQL> select ename from employee union select dname from department;
+
+ENAME                                                                           
+------------------------------                                                  
+BINDU                                                                           
+GEETHA                                                                          
+JAYA                                                                            
+KRISHNA                                                                         
+hr                                                                              
+production                                                                      
+sales                                                                           
+training                                                                        
+
+8 rows selected.
+
+SQL>  select dname from department union select ename from employee;
+
+DNAME                                                                           
+------------------------------                                                  
+BINDU                                                                           
+GEETHA                                                                          
+JAYA                                                                            
+KRISHNA                                                                         
+hr                                                                              
+production                                                                      
+sales                                                                           
+training                                                                        
+
+8 rows selected.
+
+SQL>  select deptno from department union select ename from employee;
+ select deptno from department union select ename from employee
+        *
+ERROR at line 1:
+ORA-01790: expression must have same datatype as corresponding expression 
+
+
+SQL>  select dname from department unionall select ename from employee;
+ select dname from department unionall select ename from employee
+                                       *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended 
+
+
+SQL>  select dname from department union all select ename from employee;
+
+DNAME                                                                           
+------------------------------                                                  
+training                                                                        
+training                                                                        
+production                                                                      
+sales                                                                           
+sales                                                                           
+hr                                                                              
+hr                                                                              
+BINDU                                                                           
+KRISHNA                                                                         
+GEETHA                                                                          
+JAYA                                                                            
+
+11 rows selected.
+
+SQL> select ename from employee union all select dname from department;
+
+ENAME                                                                           
+------------------------------                                                  
+BINDU                                                                           
+KRISHNA                                                                         
+GEETHA                                                                          
+JAYA                                                                            
+training                                                                        
+training                                                                        
+production                                                                      
+sales                                                                           
+sales                                                                           
+hr                                                                              
+hr                                                                              
+
+11 rows selected.
+
+SQL>  select deptno from department union all select ename from employee;
+ select deptno from department union all select ename from employee
+        *
+ERROR at line 1:
+ORA-01790: expression must have same datatype as corresponding expression 
+
+
+SQL> select ename from employee union all select deptno from department;
+select ename from employee union all select deptno from department
+       *
+ERROR at line 1:
+ORA-01790: expression must have same datatype as corresponding expression 
+
+
+SQL>  select deptno from department union all select deptno from employee;
+
+    DEPTNO                                                                      
+----------                                                                      
+         1                                                                      
+         2                                                                      
+         3                                                                      
+         4                                                                      
+         5                                                                      
+         6                                                                      
+         7                                                                      
+         1                                                                      
+         1                                                                      
+         2                                                                      
+         5                                                                      
+
+11 rows selected.
+
+SQL>  select deptno from department union select deptno from employee;
+
+    DEPTNO                                                                      
+----------                                                                      
+         1                                                                      
+         2                                                                      
+         3                                                                      
+         4                                                                      
+         5                                                                      
+         6                                                                      
+         7                                                                      
+
+7 rows selected.
+
+SQL> select deptno from employee union  select deptno from department;
+
+    DEPTNO                                                                      
+----------                                                                      
+         1                                                                      
+         2                                                                      
+         3                                                                      
+         4                                                                      
+         5                                                                      
+         6                                                                      
+         7                                                                      
+
+7 rows selected.
+
+SQL> select ename from employee intersect select dname from department;
+
+no rows selected
+
+SQL> select deptno from department intersect  select deptno from employee;
+
+    DEPTNO                                                                      
+----------                                                                      
+         1                                                                      
+         2                                                                      
+         5                                                                      
+
+SQL> select user from dual;
+
+USER                                                                            
+------------------------------                                                  
+BINDU                                                                           
+
+SQL> select * from all dual;
+select * from all dual
+              *
+ERROR at line 1:
+ORA-00903: invalid table name 
+
+
+SQL> select * from dual;
+
+D                                                                               
+-                                                                               
+X                                                                               
+
+SQL> select * from dba_users;
+select * from dba_users
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> spool off;
+SQL> 
+SQL> select d.deptno,d.dname from department d
+  2  where not exists
+  3  (select 1 from employee e where e.deptno=d.deptno);
+
+    DEPTNO DNAME                                                                
+---------- --------------------                                                 
+         3 production                                                           
+         6 hr                                                                   
+         7 hr                                                                   
+         4 sales                                                                
+
+SQL> select d.deptno,d.dname from department d
+  2  where not exists
+  3  (select 1 from employee e where e.deptno=d.deptno) order by d.deptno;
+
+    DEPTNO DNAME                                                                
+---------- --------------------                                                 
+         3 production                                                           
+         4 sales                                                                
+         6 hr                                                                   
+         7 hr                                                                   
+
+SQL> select d.deptno,d.dname from department d
+  2  where exists
+  3  (select 1 from employee e where e.deptno=d.deptno) order by d.deptno;
+
+    DEPTNO DNAME                                                                
+---------- --------------------                                                 
+         1 training                                                             
+         2 training                                                             
+         5 sales                                                                
+
+SQL> select deptno from department union select deptno from employee;
+
+    DEPTNO                                                                      
+----------                                                                      
+         1                                                                      
+         2                                                                      
+         3                                                                      
+         4                                                                      
+         5                                                                      
+         6                                                                      
+         7                                                                      
+
+7 rows selected.
+
+SQL> select deptno from department union all select deptno from employee;
+
+    DEPTNO                                                                      
+----------                                                                      
+         1                                                                      
+         2                                                                      
+         3                                                                      
+         4                                                                      
+         5                                                                      
+         6                                                                      
+         7                                                                      
+         1                                                                      
+         1                                                                      
+         2                                                                      
+         5                                                                      
+
+11 rows selected.
+
+SQL> select deptno from department intersect select deptno from employee;
+
+    DEPTNO                                                                      
+----------                                                                      
+         1                                                                      
+         2                                                                      
+         5                                                                      
+
+SQL> select deptno from department minus select deptno from employee;
+
+    DEPTNO                                                                      
+----------                                                                      
+         3                                                                      
+         4                                                                      
+         6                                                                      
+         7                                                                      
+
+SQL> create table student
+  2  (st_id number primary key,
+  3  st_name varchar2(50));
+
+Table created.
+
+SQL> create sequence seq_st start with 20 increment by 3;
+
+Sequence created.
+
+SQL> insert into student values(seq_st.nextval,'bb');
+
+1 row created.
+
+SQL> select * from student;
+
+     ST_ID ST_NAME                                                              
+---------- --------------------------------------------------                   
+        20 bb                                                                   
+
+SQL> insert into student values(seq_st.nextval,'bb');
+
+1 row created.
+
+SQL> select * from student;
+
+     ST_ID ST_NAME                                                              
+---------- --------------------------------------------------                   
+        20 bb                                                                   
+        23 bb                                                                   
+
+SQL> insert into student values(seq_st.nextval,'bb');
+
+1 row created.
+
+SQL> insert into student values(seq_st.nextval,'bb');
+
+1 row created.
+
+SQL> insert into student values(seq_st.nextval,'bb');
+
+1 row created.
+
+SQL> insert into student values(seq_st.nextval,'bb');
+
+1 row created.
+
+SQL> insert into student values(seq_st.nextval,'bb');
+
+1 row created.
+
+SQL> insert into student values(seq_st.nextval,'bb');
+
+1 row created.
+
+SQL> select * from student;
+
+     ST_ID ST_NAME                                                              
+---------- --------------------------------------------------                   
+        20 bb                                                                   
+        23 bb                                                                   
+        26 bb                                                                   
+        29 bb                                                                   
+        32 bb                                                                   
+        35 bb                                                                   
+        38 bb                                                                   
+        41 bb                                                                   
+
+8 rows selected.
+
+SQL> create table emp_demo as select * from employee;
+
+Table created.
+
+SQL> select * from emp_demo;
+
+     EMPNO ENAME                              DEPTNO HIREDATE      SALARY       
+---------- ------------------------------ ---------- --------- ----------       
+COMMISSION JCODE           MGRNO                                                
+---------- ---------- ----------                                                
+       111 BINDU                                   1 12-JAN-19      20000       
+        20 j01                                                                  
+                                                                                
+       112 KRISHNA                                 1 15-JAN-19      20000       
+        20 j01                                                                  
+                                                                                
+       113 GEETHA                                  2 12-FEB-19      20000       
+        20 j01               111                                                
+                                                                                
+
+     EMPNO ENAME                              DEPTNO HIREDATE      SALARY       
+---------- ------------------------------ ---------- --------- ----------       
+COMMISSION JCODE           MGRNO                                                
+---------- ---------- ----------                                                
+       114 JAYA                                    5 21-FEB-19      10000       
+        22 j04               112                                                
+                                                                                
+
+SQL> create table emp1 as (select * from emp where 1=2);
+create table emp1 as (select * from emp where 1=2)
+                                    *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> create table emp1 as (select * from employee where 1=2);
+
+Table created.
+
+SQL> select * from emp1;
+
+no rows selected
+
+SQL> spool off;
+SQL> 
+SQL> 16-03-19
+SP2-0042: unknown command "16-03-19" - rest of line ignored.
+SQL> 
+SQL> spool off;

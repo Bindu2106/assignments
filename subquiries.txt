@@ -1,0 +1,101 @@
+SQL> 
+SQL> 14-03-19
+SP2-0042: unknown command "14-03-19" - rest of line ignored.
+SQL> 
+SQL> select ename from employee where mgrno = any(
+  2  select empno from employee where ename in ('BINDU','GEETHA'));
+
+ENAME                                                                           
+------------------------------                                                  
+GEETHA                                                                          
+VASANT                                                                          
+SAHITH                                                                          
+
+SQL> select ename from employee where dname='SALES';
+select ename from employee where dname='SALES'
+                                 *
+ERROR at line 1:
+ORA-00904: "DNAME": invalid identifier 
+
+
+SQL> select ename from employee where dptno=(select deptno from department where dname='SALES');
+select ename from employee where dptno=(select deptno from department where dname='SALES')
+                                 *
+ERROR at line 1:
+ORA-00904: "DPTNO": invalid identifier 
+
+
+SQL> select ename from employee where deptno=(select deptno from department where dname='SALES');
+
+no rows selected
+
+SQL> select ename from employee where deptno=any(select deptno from department where dname='SALES');
+
+no rows selected
+
+SQL> select ename from employee where deptno=any(select deptno from department where dname='sales');
+
+ENAME                                                                           
+------------------------------                                                  
+JAYA                                                                            
+VASANT                                                                          
+PANDU                                                                           
+SAHITH                                                                          
+
+SQL> select ename,salary from employee where deptno=any(select deptno from department where dname='training');
+
+ENAME                              SALARY                                       
+------------------------------ ----------                                       
+BINDU                               20000                                       
+KRISHNA                             20000                                       
+GEETHA                              20000                                       
+
+SQL> select * from employee;
+
+     EMPNO ENAME                              DEPTNO HIREDATE      SALARY       
+---------- ------------------------------ ---------- --------- ----------       
+COMMISSION JCODE           MGRNO                                                
+---------- ---------- ----------                                                
+       111 BINDU                                   1 12-JAN-19      20000       
+        20 j01                                                                  
+                                                                                
+       112 KRISHNA                                 1 15-JAN-19      20000       
+        20 j01                                                                  
+                                                                                
+       113 GEETHA                                  2 12-FEB-19      20000       
+        20 j01               111                                                
+                                                                                
+
+     EMPNO ENAME                              DEPTNO HIREDATE      SALARY       
+---------- ------------------------------ ---------- --------- ----------       
+COMMISSION JCODE           MGRNO                                                
+---------- ---------- ----------                                                
+       114 JAYA                                    5 21-FEB-19      10000       
+        22 j04               112                                                
+                                                                                
+       115 VASANT                                  4 01-MAR-19      50000       
+        30 j05               113                                                
+                                                                                
+       116 PANDU                                   4 06-MAR-19      55000       
+        30 j01               112                                                
+                                                                                
+
+     EMPNO ENAME                              DEPTNO HIREDATE      SALARY       
+---------- ------------------------------ ---------- --------- ----------       
+COMMISSION JCODE           MGRNO                                                
+---------- ---------- ----------                                                
+       117 SAHITH                                  4 06-APR-19      45000       
+        30 j04               111                                                
+                                                                                
+
+7 rows selected.
+
+SQL> select ename from employee e1 where salary >= all(select salary from employee e2 where e1.jcode=e2.jcode);
+
+ENAME                                                                           
+------------------------------                                                  
+VASANT                                                                          
+PANDU                                                                           
+SAHITH                                                                          
+
+SQL> spool off;

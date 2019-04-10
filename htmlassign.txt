@@ -1,0 +1,442 @@
+
+                            HTML
+-----------------------------------------------------------------------------
+-----------------------------------------------------------------------------
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Resume</title>
+</head>
+<body>
+<h3 align="center"> <u>Resume</u> </h3>
+<address><b>Abc Pqr</b></address>
+<address>unit 55,SDF II,</address>
+<address>SEEPZ, Andher(E)</address>
+<address>Mumbai-400 096</address>
+<address>Mobile No:999999999</address>
+<address>Email:abc@patni.com</address>
+<hr></hr>
+<h4>Educational Qualifications</h4>
+<pre>
+<b>Qualification</b>    <b>Institute</b>     <b>University/Board</b>    <b>Marks(%)</b>    <b>Year of Passing</b>                           
+   BE(CS)          VJIT       Mumbai University       89%         2003                
+   MSC             Cambridge     ICSE                 97%         1999
+   SSC             Cambridge     ICSE                 98%         1997
+</pre>
+
+<h4>Skill Set :</h4>
+<pre>
+ <b>Operating System</b> &nbsp; : Windows 9'x,Dos
+ <b>Language</b> &nbsp;        : C/C++
+ <b>Front End</b>        : VB 6.0
+ <b>DBMS</b>             : Oracle 9i
+ 
+ </pre>
+ 
+
+</ol>
+</body>
+</html>
+
+==========================================================
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Calendar</title>
+<style type="text/css">
+table{
+
+ border-collapse=collapse;
+ width=50%;
+}
+th,tr{
+        border-color=3px grey;
+}
+
+</style>
+</head>
+<body>
+<table border="double" >
+<tr>
+<th colspan="8" style="background-color:yellow;border:3px solid grey">January</th>
+</tr>
+<tr>
+<th style="background-color:magenta">Sun</th>
+<th style="background-color:magenta;border:3px solid grey">Mon</th>
+<th style="background-color:magenta;border:3px solid grey">Tue</th>
+<th style="background-color:magenta;border:3px solid grey">Wed</th>
+<th style="background-color:magenta;border:3px solid grey">Thu</th>
+<th style="background-color:magenta;border:3px solid grey">Fri</th>
+<th style="background-color:magenta;border:3px solid grey">Sat</th>
+</tr>
+<tr>
+<td style="border:3px solid grey"> </td>
+<td style="border:3px solid grey"> </td>
+<td style="border:3px solid grey"> </td>
+<td style="border:3px solid grey"> </td>
+<td style="border:3px solid grey"> </td>
+<td style="background-color:yellow;border:3px solid grey">1</td>
+<td style="background-color:aqua;border:3px solid grey">2</td>
+</tr>
+<tr>
+<td style="background-color:green;border:3px solid grey">3</td>
+<td style="border:3px solid grey">4</td>
+<td style="border:3px solid grey">5</td>
+<td style="border:3px solid grey">6</td>
+<td style="border:3px solid grey">7</td>
+<td style="border:3px solid grey">8</td>
+<td style="background-color:aqua;border:3px solid grey">9</td>
+</tr>
+<tr>
+<td style="background-color:green;border:3px solid grey">10</td>
+<td style="border:3px solid grey">11</td>
+<td style="border:3px solid grey">12</td>
+<td style="border:3px solid grey">13</td>
+<td style="border:3px solid grey">14</td>
+<td style="border:3px solid grey">15</td>
+<td style="background-color:aqua;border:3px solid grey">16</td>
+</tr>
+<tr>
+<td style="background-color:green;border:3px solid grey">17</td>
+<td style="border:3px solid grey">18</td>
+<td style="border:3px solid grey">19</td>
+<td style="border:3px solid grey">20</td>
+<td style="border:3px solid grey">21</td>
+<td style="border:3px solid grey">22</td>
+<td style="background-color:aqua;border:3px solid grey"">23</td>
+</tr>
+<tr>
+<td style="background-color:green;border:3px solid grey"">24</td>
+<td style="border:3px solid grey">25</td>
+<td style="background-color:yellow;border:3px solid grey"">26</td>
+<td style="border:3px solid grey">27</td>
+<td style="border:3px solid grey">28</td>
+<td style="border:3px solid grey">29</td>
+<td style="background-color:aqua;border:3px solid grey"">30</td>
+</tr>
+<tr>
+<td style="background:green;border:3px solid grey"">31</td>
+<td style="border:3px solid grey"> </td>
+<td style="border:3px solid grey"> </td>
+<td style="border:3px solid grey"> </td>
+<td style="border:3px solid grey"> </td>
+<td style="border:3px solid grey"> </td>
+<td style="border:3px solid grey"> </td>
+</tr>
+</table>
+
+
+</body>
+</html>
+
+====================================================================
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Product</title>
+</head>
+<center>
+<body>
+ <h3>Product Table</h3>
+ 
+ <table border="1">
+        <tr>
+         <th style="background-color:lightblue">Product</th>
+         <th style="background-color:lightblue">Price</th>
+         <th style="background-color:lightblue">Quantity</th>
+         <th style="background-color:lightblue">Amount</th>
+         </tr>
+         
+         <tr>
+           <td>P001</td>
+           <td>1000.00</td>
+           <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;12</td>
+           <td>12000.00</td>
+           </tr>
+           
+            <tr>
+           <td>P002</td>
+           <td>2000.00</td>
+           <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10</td>
+           <td>20000.00</td>
+           </tr>
+           
+            <tr>
+           <td>Total</td>
+           <td>3000.00</td>
+           <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;22</td>
+           <td>32000.00</td>
+           </tr>
+    
+ 
+ 
+ 
+ </table>
+ 
+ 
+</body>
+</center>
+</html>
+
+=========================================================================
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Employee</title>
+</head>
+<body>
+<table border="double">
+   <tr>
+     <th>Empcode</th>
+     <th>EmpName</th>
+     <th>Dept Code</th>
+     <th>Experience</th>
+   </tr>
+   <tr>
+   <td>1001</td>
+   <td>Kiran Rao</td>
+   <td><a href="Sales.html">10</a></td>
+   <td>8 Yrs.</td>
+   </tr>
+   <tr>
+   <td>1002</td>
+   <td>Amir Khan</td>
+   <td><a href="Training.html">20</a></td>
+   <td>5 Yrs.</td>
+   </tr>
+   <tr>
+   <td>1003</td>
+   <td>Ishita Shah</td>
+   <td><a href="Accounts.html">30</a></td>
+   <td>10 Yrs.</td>
+   </tr>
+</table>
+
+</body>
+</html>
+
+==========================================================================
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>empdetails</title>
+</head>
+<body>
+<center>
+<table border="1" bgcolor="skyblue">
+<tr>
+<th>Name</th>
+<td><input type="text" name="name" size="20"></td>
+</tr>
+<tr>
+<th>Employee Code</th>
+<td><input type="text" name="code" size="05"></td>
+</tr>
+<tr>
+<th>Department</th>
+<td>
+<input type="radio" name="admin" value="admin" checked> Admin<br>
+<input type="radio" name="admin" value="admin" checked> HR <br>
+<input type="radio" name="admin" value="admin" checked> Technical <br>
+<input type="radio" name="admin" value="admin" checked> Accounts <br>
+</td>
+</tr>
+
+<tr>
+<th>date of joining</th>
+<td>
+<select>
+  <option>1</option>
+  <option>2</option>
+</select>
+
+<select>
+   <option>01</option>
+   <option>02</option>
+</select>
+
+<select>
+   <option>2014</option>
+   <option>2015</option>
+</select>
+
+<br>dd &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mm &nbsp;&nbsp; YYYY
+</td>
+</tr>
+
+<tr>
+ <th>Address</th>
+ <td>
+ <textarea name="addr" rows="5" cols="20" ></textarea>
+ </td>
+</tr>
+
+<tr>
+<th>Training Program attended</th>
+<td>
+<input type="checkbox" name="training" value="training"> HTML/DHTML <br>
+<input type="checkbox" name="training" value="training"> Java <br>
+<input type="checkbox" name="training" value="training"> Client/Server <br>
+<input type="checkbox" name="training" value="training"> .NET <br>
+</td>
+</tr>
+
+<tr>
+<th>Training program need to attend</th>
+<td>
+<select>
+   <option>JavaScript</option>
+</select>
+</td>
+</tr>
+
+<tr>
+<th>Send the information at </th>
+<td><a href="#">empinfo@mphasis.com</a></td>
+</tr>
+</table>
+</center>
+</body>
+</html>
+
+========================================================================
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>candidatedetails</title>
+</head>
+<style type="text/css">
+span{
+ color:red;
+}
+
+p{
+    color:red;
+}
+
+</style>
+<body>
+<form method="post" auto-complete="off">
+<fieldset>
+<center>
+  <h2>Candidate Information</h2>
+  <table border="1" bgcolor="skyblue" width="90%">
+  <tr>
+  <th align="left">Name:  <span >*</span></th>
+  <td><input type="text" name="name" maxlength="15" placeholder="enter your name" 
+        required="required"></td>
+   </tr>
+   
+   <tr>
+     <th align="left">Password:  <span>*</span></th>
+     <td><input type="password" name="pssd" maxlength="15" placeholder="enter your password" 
+            required="required"></td>
+     </tr>
+     
+     <tr>
+     <th align="left">Phone number:  <span>*</span></th>
+     <td><input type="text" name="phno" maxlength="10" placeholder="enter number" 
+                 required="required" pattern="[0-9]{10}"></td>
+     </tr>
+    <tr>
+    <th align="left">Gender:  <span>*</span></th>
+    <td><input type="radio" name="gender" value="gender" checked> Male
+    <input type="radio" name="gender" value="gender" checked> Female <br>
+    </td>
+     </tr>
+     <tr>
+     <th align="left">Date of Birth:  <span>*</span></th>
+     <td><input type="date" name="dob" placeholder="mm/dd/yyyy" required="required"></td>
+     </tr>
+     <tr>
+     <th align="left">Email: <span>*</span></th>
+     <td><input type="email" name="lname" autocomplete="off"
+           placeholder="enter email id" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required="required">
+     </td>
+     </tr>
+     <tr>
+     <th align="left">Higher Qualification: <span>*</span></th>
+     <td>
+     <select>
+        <option>Select Higher Qualification</option>
+        <option>B.Tech</option>
+        <option>MBA</option>
+        <option>M.Tech</option>
+        <option>MCA</option>
+     </select>
+     </td>
+     </tr>
+     <tr>
+     <th align="left">Courses Interested in: <span>*</span></th>
+     <td><input type="checkbox" name="course"> Java
+         <input type="checkbox" name="course"> HTML 5
+         <input type="checkbox" name="course"> CSS 3
+         <input type="checkbox" name="course"> Angular JS
+         <input type="checkbox" name="course"> JQuery
+      </td>
+     </tr>
+     <tr>
+     <th align="left">Comments: (Mention External Certifications if any)</th>
+     <td><textarea name="addr" Rows="5" cols="40" tabindex="0" accesskey="A"></textarea></td>
+     </tr>
+     <tr>
+     <th align="left">Upload Degree/External Certificates: <span>*</span></th>
+     <td><input type="button" name="upload" value="Choose Files" required="required">No File Choosen</td>
+     </tr>
+     
+     
+     <tr>
+     <th  >  </th>
+     <td><input type="submit" value="Submit Information">
+         <input type="reset" value="Clear">
+         </td>
+     </tr>
+  </table>
+  
+  <p align="center">All fields marked(*) are mandatory</p>
+
+
+</center>
+</fieldset>
+</form>
+</body>
+</html>
+============================================================================
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>image</title>
+</head>
+<body>
+<table  style="border:10px solid red;width:500px">
+    <tr>
+    <td><img src="Desert.jpg" style="width:350px;height:150px"></td><td align="right">&nbsp;&nbsp;Desert</td>
+    </tr>
+    <tr>
+    <td><img src="Koala.jpg" style="width:350px;height:150px"></td><td align="right">&nbsp;&nbsp;Koala</td>
+    </tr>
+    <tr>
+    <td><img src="Hydrangeas.jpg" style="width:350px;height:150px"></td><td align="right">&nbsp;Hydrangeas</td>
+    </tr>
+    <tr>
+    <td><img src="Lighthouse.jpg" style="width:350px;height:150px"></td><td align="right">&nbsp;Lighthouse</td>
+    </tr>
+</table>
+
+</body>
+
+</html>
+==========================================================================
